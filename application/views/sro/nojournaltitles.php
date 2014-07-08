@@ -15,7 +15,7 @@
 
 <?php foreach ($items as $sro_item): ?>
 	<tr>
-		<td><a href="https://sro.sussex.ac.uk/cgi/users/home?screen=EPrint::View&eprintid=<?php echo $sro_item['eprintid'] ?>" target="_blank">View item</a></td>
+		<td><a href="<?php echo $this->config->item('eprints_edit_record_url') . $sro_item['eprintid'] ?>" target="_blank">View item</a></td>
 		<td><?php echo $sro_item['title'] ?> </td>
 		<td><?php echo $sro_item['livedate'] ?> </td>
 		<td><?php echo $sro_item['date_year'] ?> </td>

@@ -1,5 +1,10 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/* Repository reporting config */
+$config['eprints_name'] = "SRO";
+$config['eprints_record_url'] = "http://sro.sussex.ac.uk/";
+$config['eprints_edit_record_url'] = "https://sro.sussex.ac.uk/cgi/users/home?screen=EPrint::View&eprintid=";
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

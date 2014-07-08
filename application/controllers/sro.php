@@ -9,7 +9,6 @@ class Sro extends CI_Controller {
 
 	public function index()
 	{
-		//$data['items'] = $this->sro_model->get_nojournaltitle();
 		$data['total'] = $this->sro_model->get_total();
 		$data['oatotals'] = $this->sro_model->get_oatotal_bytype();
 		$data['monthtotals'] = $this->sro_model->get_newrecords_bymonth();
@@ -23,7 +22,7 @@ class Sro extends CI_Controller {
 	public function getrecentoa()
 	{
 		$data['items'] = $this->sro_model->get_recentoaitems();
-		$data['title'] = 'SRO recent oa items';
+		$data['title'] = $this->config->item('eprints_name'). ' recent oa items';
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/recentoaitems', $data);
 		$this->load->view('templates/footer');
@@ -33,7 +32,7 @@ class Sro extends CI_Controller {
 	{
 		$eprintid = '10000';
 		$data['items'] = $this->sro_model->get_recentoaitems();
-		$data['title'] = 'SRO item';
+		$data['title'] = $this->config->item('eprints_name'). ' item';
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/item', $data);
 		$this->load->view('templates/footer');
@@ -42,7 +41,7 @@ class Sro extends CI_Controller {
 	public function nojournaltitles()
 	{
 		$data['items'] = $this->sro_model->get_nojournaltitle();
-		$data['title'] = 'SRO articles with no journal title';
+		$data['title'] = $this->config->item('eprints_name'). ' articles with no journal title';
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/nojournaltitles', $data);
@@ -52,7 +51,7 @@ class Sro extends CI_Controller {
 	public function notsetaspublished()
 	{
 		$data['items'] = $this->sro_model->get_notsetaspublished();
-		$data['title'] = 'SRO items not set as published';
+		$data['title'] = $this->config->item('eprints_name'). ' items not set as published';
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/notsetaspublished', $data);
@@ -64,7 +63,7 @@ class Sro extends CI_Controller {
 		$data['total'] = $this->sro_model->get_total();
 		$data['oatotals'] = $this->sro_model->get_oatotal_bytype();
 		$data['monthtotals'] = $this->sro_model->get_newrecords_bymonth();
-		$data['title'] = 'SRO Summary';
+		$data['title'] = $this->config->item('eprints_name'). ' Summary';
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/summary', $data);
 		$this->load->view('templates/footer');
@@ -74,7 +73,7 @@ class Sro extends CI_Controller {
 	public function listoa($field, $value)
 	{
 		$data['oaitems'] = $this->sro_model->get_oalist($field, $value);
-		$data['title'] = 'SRO Open Access items list';
+		$data['title'] = $this->config->item('eprints_name'). ' Open Access items list';
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/oalist', $data);

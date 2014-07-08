@@ -1,4 +1,3 @@
-<?php //print_r($oaitems); ?>
 <table class="style1 stripe">
 <thead>
 	<tr>
@@ -13,7 +12,8 @@
 <tbody>
 <?php foreach ($oaitems as $oaitem): ?>
 	<tr>
-	<td><?php echo $oaitem->eprintid ?></td>
+	<td><a href="<?php echo $this->config->item('eprints_record_url') . $oaitem->eprintid ?>" target="_blank">
+	<?php echo $oaitem->eprintid ?></a></td>
 	<td><?php echo $oaitem->datelive ?></td>
 	<td><?php echo $oaitem->title ?></td>
 	<td><?php echo $oaitem->type ?></td>
@@ -23,8 +23,3 @@
 <?php endforeach ?>
 </tbody>
 </table>
-
-
-
-
-e.eprintid, concat(datestamp_year, " / ", datestamp_month, " / ", datestamp_day) as datelive, e.title, e.type  

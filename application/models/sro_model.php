@@ -116,6 +116,8 @@ class Sro_model extends CI_Model {
 					->where('f.format like "application%"')
 					->where('f.security', 'public')
 					->where($field,$value)
+					->group_by('f.eprintid')
+					->order_by('datelive')
 					->get()
                     ->result();
 	}
