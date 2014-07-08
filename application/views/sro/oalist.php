@@ -1,7 +1,7 @@
 <table class="style1 stripe">
 <thead>
 	<tr>
-		<th>SRO id</th>
+		<th><?php echo $this->config->item('eprints_name') ?> id</th>
 		<th>Date live</th>
 		<th>Title </th>
 		<th>Type</th>
