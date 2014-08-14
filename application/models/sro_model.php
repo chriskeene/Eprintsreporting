@@ -32,28 +32,6 @@ class Sro_model extends CI_Model {
 			return $query->result_array();
 	}
 	
-	public function get_recentoaitems()
-	{
-		$query = $this->db->query('select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, 
-		date_year, e.oa_status, e.oa_embargo_length, e.oa_licence_type, 
-		group_concat(DISTINCT ff.funder_information_funder SEPARATOR ", and ") As funder,  
-			e.title, e.publisher, e.ispublished, e.`type`, e.id_number,
-			group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors
-			from eprint e
-			left outer join eprint_funder_information_funder ff on ff.eprintid = e.eprintid
-			left outer join eprint_funder_information_funder_ref fr on (fr.eprintid = ff.eprintid AND fr.pos = ff.pos)
-			JOIN eprint_creators_id i on e.eprintid = i.eprintid
- 			JOIN eprint_creators_name n on n.eprintid = i.eprintid AND n.pos = i.pos
-			Where (e.oa_status is not null
-				OR e.oa_embargo_length is not null
-				OR e.oa_licence_type is not null)
-			AND e.eprint_status = "archive"
-			and i.creators_id is not null
-			GROUP BY e.eprintid
-			ORDER BY e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
-		');
-		return $query->result_array();
-	}
 
 	public function get_notsetaspublished()
 	{		
@@ -120,6 +98,64 @@ class Sro_model extends CI_Model {
 					->order_by('datelive')
 					->get()
                     ->result();
+	}
+	
+	public function get_schools_records()
+	{
+		
+	}
+	
+	public function get_recentoaitems()
+	{
+		$query = $this->db->query('select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, 
+		date_year, e.oa_status, e.oa_embargo_length, e.oa_licence_type, 
+		group_concat(DISTINCT ff.funder_information_funder SEPARATOR ", and ") As funder,  
+			e.title, e.publisher, e.ispublished, e.`type`, e.id_number,
+			group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors
+			from eprint e
+			left outer join eprint_funder_information_funder ff on ff.eprintid = e.eprintid
+			left outer join eprint_funder_information_funder_ref fr on (fr.eprintid = ff.eprintid AND fr.pos = ff.pos)
+			JOIN eprint_creators_id i on e.eprintid = i.eprintid
+ 			JOIN eprint_creators_name n on n.eprintid = i.eprintid AND n.pos = i.pos
+			Where (e.oa_status is not null
+				OR e.oa_embargo_length is not null
+				OR e.oa_licence_type is not null)
+			AND e.eprint_status = "archive"
+			and i.creators_id is not null
+			GROUP BY e.eprintid
+			ORDER BY e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
+		');
+		return $query->result_array();
+	}
+	
+	public function get_recentfunderitems()
+	{
+		$query = $this->db->query('select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS 	livedate, 
+			date_year, e.oa_status, e.oa_embargo_length, e.oa_licence_type, 
+			group_concat(DISTINCT ff.funder_information_funder SEPARATOR ", and ") As funder,
+			group_concat(DISTINCT fr.funder_information_funder_ref SEPARATOR ", and ") As funderref,
+			group_concat(DISTINCT fp.funder_information_project_name SEPARATOR ", and ") As projectname,
+			group_concat(DISTINCT fn.funder_information_project_number SEPARATOR ", and ") As projectnum,
+			e.title, e.publisher, e.ispublished, e.`type`, e.id_number,
+			group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors
+			from eprint e
+			left outer join eprint_funder_information_funder ff on ff.eprintid = e.eprintid
+			left outer join eprint_funder_information_funder_ref fr on (fr.eprintid = ff.eprintid AND fr.pos = ff.pos)
+			left outer join eprint_funder_information_project_name fp on (fp.eprintid = ff.eprintid AND fp.pos = ff.pos)
+			left outer join eprint_funder_information_project_number fn on (fn.eprintid = ff.eprintid AND fn.pos = ff.pos)
+			JOIN eprint_creators_id i on e.eprintid = i.eprintid
+ 			JOIN eprint_creators_name n on n.eprintid = i.eprintid AND n.pos = i.pos
+			Where (ff.funder_information_funder is not null
+				OR fr.funder_information_funder_ref is not null
+				OR fp.funder_information_project_name is not null
+				OR fn.funder_information_project_number is not null
+				)
+			AND e.eprint_status = "archive"
+			and i.creators_id is not null
+			GROUP BY e.eprintid
+			ORDER BY e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
+		');
+		return $query->result_array();
 	}
 
 }

@@ -29,6 +29,7 @@
 <ul>
 <li><a href="summary">Summary</a></li>
 <li><a href="getrecentoa">Records with OA metadata</a></li>
+<li><a href="getrecentfunder">Records with funder metadata</a></li>
 </ul>
 <h3>Data issue reports</h3>
 <ul>

@@ -27,6 +27,15 @@ class Sro extends CI_Controller {
 		$this->load->view('sro/recentoaitems', $data);
 		$this->load->view('templates/footer');
 	}
+	
+	public function getrecentfunder()
+	{
+		$data['items'] = $this->sro_model->get_recentfunderitems();
+		$data['title'] = $this->config->item('eprints_name'). ' recent funder items';
+		$this->load->view('templates/header', $data);
+		$this->load->view('sro/recentfunderitems', $data);
+		$this->load->view('templates/footer');
+	}
 
 	public function view($slug)
 	{
@@ -78,5 +87,10 @@ class Sro extends CI_Controller {
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/oalist', $data);
 		$this->load->view('templates/footer');
+	}
+	
+	public function school()
+	{
+		
 	}
 }
