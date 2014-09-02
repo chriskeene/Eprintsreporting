@@ -33,8 +33,14 @@ class Sro_model extends CI_Model {
 	}
 	
 
-	public function get_notsetaspublished()
-	{		
+	public function get_notsetaspublished($months="0")
+	{
+		// find out the year we want, based on number of months we are going back
+		$getyear = date('Y', strtotime("-$months month"));
+		// find out the month we want based on the number of months we are going back
+		$getmonth = date('m', strtotime("-$months month"));
+		// so if 12 and today is 1/sept/2014 the get stuff from BEFORE 2013
+		// OR ON or BEFORE 2013 AND ON or BEFORE 9
 		$query = $this->db->query('
 			select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, e.title, e.ispublished, e.type, e.date_year as pubyear, e.date_month as pubmonth, e.publication,
 			e.id_number, e.volume, e.number
@@ -42,9 +48,10 @@ class Sro_model extends CI_Model {
 			where e.ispublished != "pub"
 			and e.eprintid > 10000
 			and e.eprint_status = "archive"
-			and e.datestamp_year < 2014
+			and (e.datestamp_year < ' . $getyear . '
+				OR e.datestamp_year <= ' . $getyear . ' AND e.datestamp_month <= ' . $getmonth . ')
 			and e.`type` != "thesis"
-			order by e.type, e.datestamp_year, e.datestamp_month, e.datestamp_day
+			order by e.type, e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
 		');
 		return $query->result_array();
 		

@@ -57,10 +57,11 @@ class Sro extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 	
-	public function notsetaspublished()
+	public function notsetaspublished($months="0")
 	{
-		$data['items'] = $this->sro_model->get_notsetaspublished();
+		$data['items'] = $this->sro_model->get_notsetaspublished($months);
 		$data['title'] = $this->config->item('eprints_name'). ' items not set as published';
+		$data['months'] = $months;
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/notsetaspublished', $data);
@@ -89,8 +90,14 @@ class Sro extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 	
-	public function school()
+	public function school($school)
 	{
+		if ($school) {
+			
+		}
+		else {
+		
+		}
 		
 	}
 }

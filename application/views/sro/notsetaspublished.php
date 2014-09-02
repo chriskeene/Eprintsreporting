@@ -1,3 +1,9 @@
+<?php 
+
+echo '<p>Showing items not set as published added before '. date('F Y', strtotime("-$months month")) ."\n"; 
+echo " (" . count($items) . " items)</p>\n"; 
+?>
+
 <table class="style1 stripe">
 <thead>
 	<tr>

@@ -33,7 +33,8 @@
 </ul>
 <h3>Data issue reports</h3>
 <ul>
-<li><a href="notsetaspublished">items not set as published</a></li>
+<li><a href="notsetaspublished/12">items not set as published added more than 12 months a go</a></li>
+<li><a href="notsetaspublished">all items not set as published</a></li>
 <li>articles with no: journal title, ISSN, DOI</li>
 <li><a href="nojournaltitles"> articles with no journal title</a></li>
 </ul>

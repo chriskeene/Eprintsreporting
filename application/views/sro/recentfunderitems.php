@@ -39,7 +39,7 @@
 		<td><?php echo $sro_item['projectnum'] ?> </td>
 		<td><?php echo $sro_item['oa_status'] ?> <?php echo $sro_item['oa_licence_type'] ?> </td>
 		
-		
+		<?php $doi = ""; ?>
 		
 		
 
