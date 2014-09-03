@@ -98,7 +98,7 @@ class Sro_model extends CI_Model {
 					->from('document f')
 					->join('eprint e' , 'e.eprintid = f.eprintid')
 					->where('e.eprint_status', "archive")
-					->where('f.format like "application%"')
+					->like('f.format', 'application', 'after')
 					->where('f.security', 'public')
 					->where($field,$value)
 					->group_by('f.eprintid')
@@ -107,8 +107,87 @@ class Sro_model extends CI_Model {
                     ->result();
 	}
 	
-	public function get_schools_records()
+	public function get_schools_year()
 	{
+		// we're returning more than one query, so chuck it all in an array
+		$schoolsarray=array();
+		// first get total records for each School
+		$query = $this->db->select('COUNT( * ) AS  "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
+					->from('eprint e')
+					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+					->where('e.eprint_status', "archive")
+					->where('a.pos', '1')
+					->group_by('t.name_name')
+					->order_by('t.name_name')
+					->get();
+		foreach ($query->result() as $row) {
+			// add results to multi-dem array. use schoolid as id 
+			$schoolsarray["$row->schoolid"]["schoolid"] = "$row->schoolid";
+			$schoolsarray["$row->schoolid"]["schoolname"] = "$row->school";
+			$schoolsarray["$row->schoolid"]["schooltotalrecords"] = "$row->total";
+		}
+		
+		// now add oa totals to each school
+		$query = $this->db->select('count(*) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
+					->from('document f')
+					->join('eprint e' , 'e.eprintid = f.eprintid')
+					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+					->where('e.eprint_status', "archive")
+					->like('f.format', 'application', 'after')
+					->where('f.security', 'public')
+					->where('a.pos', '1')
+					->where('t.subjectid !=', 'd328')
+					->group_by('t.subjectid')
+					->get();
+		foreach ($query->result() as $row) {
+			$schoolsarray["$row->schoolid"]["schooloatotal"] = "$row->total";
+		}
+		
+		return $schoolsarray;
+					
+	}
+	
+	public function get_school_summary($school)
+	{
+		$schoolarray=array();
+		$query = $this->db->select('COUNT( * ) AS  "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
+					->from('eprint e')
+					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+					->where('e.eprint_status', "archive")
+					->where('a.pos', '1')
+					->where('t.subjectid', $school)
+					->group_by('t.name_name')
+					->order_by('t.name_name')
+					->get();
+		foreach ($query->result() as $row) {
+			$schoolarray["schoolid"] = "$row->schoolid";
+			$schoolarray["schoolname"] = "$row->school";
+			$schoolarray["totalrecords"] = "$row->total";
+		}
+		// now get oa data.
+		$query = $this->db->select('count(*) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
+					->from('document f')
+					->join('eprint e' , 'e.eprintid = f.eprintid')
+					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+					->where('e.eprint_status', "archive")
+					->like('f.format', 'application', 'after')
+					->where('f.security', 'public')
+					->where('a.pos', '1')
+					->where('t.subjectid', $school)
+					->group_by('t.subjectid')
+					->get();
+		foreach ($query->result() as $row) {
+			$schoolarray["oatotal"] = "$row->total";
+		}
+		return $schoolarray;
 		
 	}
 	

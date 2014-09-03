@@ -90,12 +90,24 @@ class Sro extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 	
-	public function school($school)
+	public function school($school="")
 	{
 		if ($school) {
-			
+			$data['schooltotals'] = $this->sro_model->get_school_summary($school);
+			// name 
+			$schoolname = $data['schooltotals']['schoolname'];
+			$data['title'] = $this->config->item('eprints_name'). " " . $schoolname . ' summary';
+			$this->load->view('templates/header', $data);
+			$this->load->view('sro/schoolsummary', $data);
+			$this->load->view('templates/footer');
 		}
 		else {
+			$data['schooltotals'] = $this->sro_model->get_schools_year();
+			$data['title'] = $this->config->item('eprints_name'). ' Schools summary';
+			$this->load->view('templates/header', $data);
+			$this->load->view('sro/schoolssummary', $data);
+			$this->load->view('templates/footer');
+	
 		
 		}
 		
