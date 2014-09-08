@@ -1,5 +1,7 @@
 
-<p><?php print_r($schooltotals); //echo "Total live records: " . number_format($total[0]->total);  ?></p>
+<p><?php //print_r($schooltotals);  ?></p>
+
+<?php $monthlist = array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); ?>
 
 <table class="style1 stripe">
 <thead>
@@ -15,31 +17,34 @@
 <td>Total items</td><td><?php echo $schooltotals['totalrecords'] ?></td>
 </tr>
 <tr>
-<td>Open Access items</td><td> blah </td>
+<td>Open Access items</td><td> <?php echo $schooltotals['oatotal'] ?> </td>
 </tr>
 
 
 <table class="style1 stripe">
 <thead>
 	<tr>
-		<th>type</th>
-		<th>total</th>
-		<th>school id </th>
-		<th>oa </th>
+		<th> </th>
+		<?php foreach ($monthlist as $monthname): ?>
+		<th><?php echo $monthname ?></th>
+		<?php endforeach ?>
+		<th>Total</th>
 
 	</tr>
 </thead>
 <tbody>
-<?php foreach ($schooltotals as $schooltotal): ?>
-	<?php //if (empty($oatotal->type)) { $oatotal->type = "total"; } ?>
-	<tr>
-	<td><?php echo '<a href="/library/sro/sro/school/' . $schooltotal['schoolid'] . '">' .
-	$schooltotal['schoolname'] . '</a>' ?></td>
-	<td><?php echo number_format($schooltotal['schooltotalrecords']) ?></td>
-	<td><?php echo $schooltotal['schoolid'] ?></td>
-	<td><?php echo $schooltotal['schooloatotal'] ?></td>
-
-	</tr>
+<tr>
+<td>records added 13/14</td>
+<?php $monthtotals = $schooltotals['monthlytotals']; 
+    foreach ($monthlist as $monthname): ?>
+		<td><?php if (!empty($monthtotals["$monthname"])) {
+					echo $monthtotals["$monthname"]; 
+				} ?>
+		</td>
 	<?php endforeach ?>
-</tbody>
+	<td> <?php echo $monthtotals["Total"] ?> </td>
+	</tr>
+	</tbody>
 </table>
+
+<p>todo top journals, top publishers, departments, oa by month, by type.

@@ -70,10 +70,17 @@ class Sro extends CI_Controller {
 	
 	public function summary()
 	{
+		
 		$data['total'] = $this->sro_model->get_total();
 		$data['oatotals'] = $this->sro_model->get_oatotal_bytype();
 		$data['monthtotals'] = $this->sro_model->get_newrecords_bymonth();
 		$data['title'] = $this->config->item('eprints_name'). ' Summary';
+		
+		$currentyear = date("Y");
+		$data['thisyear'] = $this->sro_model->get_year_new_records($currentyear);
+		$previousyear = $currentyear - 1;
+		$data['previousyear'] = $this->sro_model->get_year_new_records($previousyear);
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/summary', $data);
 		$this->load->view('templates/footer');

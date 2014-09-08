@@ -80,13 +80,14 @@ class Sro_model extends CI_Model {
                         ->result();
 	}
 	
-	// need to work out current year
+	// very simple 
 	public function get_newrecords_bymonth()
 	{
+		$currentyear = date("Y");
 		return $this->db->select('count(*) as total, concat(datestamp_month,"/",datestamp_year) as "monthadded"', FALSE)
 						->from('eprint')
 						->where('eprint_status', 'archive')
-						->where('datestamp_year', '2014')
+						->where('datestamp_year', "$currentyear")
 						->group_by('datestamp_month with rollup')
 						->get()
                         ->result();
@@ -107,6 +108,7 @@ class Sro_model extends CI_Model {
                     ->result();
 	}
 	
+	// this shows data for ALL schools
 	public function get_schools_year()
 	{
 		// we're returning more than one query, so chuck it all in an array
@@ -151,6 +153,7 @@ class Sro_model extends CI_Model {
 					
 	}
 	
+	// show data for just one school - as specified.
 	public function get_school_summary($school)
 	{
 		$schoolarray=array();
@@ -187,8 +190,36 @@ class Sro_model extends CI_Model {
 		foreach ($query->result() as $row) {
 			$schoolarray["oatotal"] = "$row->total";
 		}
-		return $schoolarray;
 		
+		// get deposits for each month
+		// some slightly fancy stuff to get the date back in various ways, including three digit month
+		// only (jan, feb) as nicemonth and year month, which includes a 0 before single digit months, 
+		// ensuring their sort correctly. (which may or may not be important later)
+		$query = $this->db->select('Count(*) as "total", e.datestamp_year as year, 
+			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%Y/%m\') as yearmonth,
+			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%b\') as nicemonth', FALSE)
+					->from('eprint e')
+					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+					->where('e.eprint_status', "archive")
+					->where('a.pos', '1')
+					->where('t.subjectid', $school)
+					->where('((e.datestamp_year = 2014 and e.datestamp_month < 8 )
+						OR (e.datestamp_year = 2013 and e.datestamp_month > 7 ))')
+					->group_by('yearmonth with rollup')
+					->get();
+		// using 'with rollup' means the row with the total will have NILL in yearmonth, 
+		// so we need to test for this and set this manually to total. ELSE act normally
+		foreach ($query->result() as $row) {
+			if (empty($row->yearmonth)) {
+				$schoolarray["monthlytotals"]["Total"] = "$row->total";
+			}
+			else {
+				$schoolarray["monthlytotals"]["$row->nicemonth"] = "$row->total";
+			}
+		}			
+		return $schoolarray;
 	}
 	
 	public function get_recentoaitems()
@@ -242,6 +273,53 @@ class Sro_model extends CI_Model {
 			ORDER BY e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
 		');
 		return $query->result_array();
+	}
+	
+	public function get_year_new_records($year="",$school="")
+	{
+		if (empty($year)) {
+			$startyear = date("Y",strtotime("-1 year"));
+		}
+		else {
+			$startyear = $year;
+		}
+		$endyear = $startyear + 1;
+		//$year = date("Y",strtotime("-1 year"));
+		$newitemsarray=array();
+		//$school = "s921";
+		// get deposits for each month
+		// some slightly fancy stuff to get the date back in various ways, including three digit month
+		// only (jan, feb) as nicemonth and year month, which includes a 0 before single digit months, 
+		// ensuring their sort correctly. (which may or may not be important later)
+		$this->db->select('Count(*) as "total", e.datestamp_year as year, 
+			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%Y/%m\') as yearmonth,
+			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%b\') as nicemonth', FALSE)
+					->from('eprint e')
+					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+					->where('e.eprint_status', "archive")
+					->where('a.pos', '1');
+		if (!empty($school)) {			
+			$this->db->where('t.subjectid', $school);
+		}
+		$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
+						OR (e.datestamp_year = $startyear and e.datestamp_month > 7 ))")
+					->group_by('yearmonth with rollup');
+					
+		$query = $this->db->get();
+		// using 'with rollup' means the row with the total will have NILL in yearmonth, 
+		// so we need to test for this and set this manually to total. ELSE act normally
+		foreach ($query->result() as $row) {
+			if (empty($row->yearmonth)) {
+				$newitemsarray["Total"] = "$row->total";
+			}
+			else {
+				$newitemsarray["$row->nicemonth"] = "$row->total";
+			}
+		}
+		$newitemsarray["name"] = "$startyear/$endyear";
+		return $newitemsarray;		
 	}
 
 }
