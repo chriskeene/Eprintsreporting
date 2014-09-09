@@ -70,17 +70,31 @@ class Sro extends CI_Controller {
 	
 	public function summary()
 	{
+		// find FIRST calendar year for current academic year: 
+		// if aug-dec then current year (eg Oct2013 = 2013/14)
+		// if jan-jul it is the year before (eg Feb2013 = 2013/14)
+		$currentyear = date("Y");
+		$currentmonth = date("m");
+		if ($currentmonth > 7) {
+			$academicyear = $currentyear;
+		}
+		else {
+			$academicyear = $currentyear - 1;
+		}
 		
 		$data['total'] = $this->sro_model->get_total();
 		$data['oatotals'] = $this->sro_model->get_oatotal_bytype();
 		$data['monthtotals'] = $this->sro_model->get_newrecords_bymonth();
 		$data['title'] = $this->config->item('eprints_name'). ' Summary';
-		
-		$currentyear = date("Y");
-		$data['thisyear'] = $this->sro_model->get_year_new_records($currentyear);
-		$previousyear = $currentyear - 1;
+		// ***************************************************
+		// get current academic year records
+		$data['thisyear'] = $this->sro_model->get_year_new_records($academicyear);
+		$previousyear = $academicyear - 1; // get previous academic year
 		$data['previousyear'] = $this->sro_model->get_year_new_records($previousyear);
-		
+		// and year before that
+		$threeyearsago = $previousyear - 1;
+		$data['threeyearsago'] = $this->sro_model->get_year_new_records($threeyearsago);
+		//*******************************************************
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/summary', $data);
 		$this->load->view('templates/footer');
@@ -99,11 +113,42 @@ class Sro extends CI_Controller {
 	
 	public function school($school="")
 	{
+		// find FIRST calendar year for current academic year: 
+		// if aug-dec then current year (eg Oct2013 = 2013/14)
+		// if jan-jul it is the year before (eg Feb2013 = 2013/14)
+		$currentyear = date("Y");
+		$currentmonth = date("m");
+		if ($currentmonth > 7) {
+			$academicyear = $currentyear;
+		}
+		else {
+			$academicyear = $currentyear - 1;
+		}
+		
+		// a summary of all schools, unless we have been passed a school code.
 		if ($school) {
 			$data['schooltotals'] = $this->sro_model->get_school_summary($school);
 			// name 
 			$schoolname = $data['schooltotals']['schoolname'];
 			$data['title'] = $this->config->item('eprints_name'). " " . $schoolname . ' summary';
+			
+			//***********************
+			// get current academic year records for each month
+			$data['thisyear'] = $this->sro_model->get_year_new_records($academicyear, $school);
+			$previousyear = $academicyear - 1; // get previous academic year
+			$data['previousyear'] = $this->sro_model->get_year_new_records($previousyear, $school);
+			// and year before that
+			$threeyearsago = $previousyear - 1;
+			$data['threeyearsago'] = $this->sro_model->get_year_new_records($threeyearsago, $school);
+			//*************************************
+			// OA by month
+			$data['thisyearoa'] = $this->sro_model->get_year_monthly_oa($academicyear, $school);
+			$previousyear = $academicyear - 1; // get previous academic year
+			$data['previousyearoa'] = $this->sro_model->get_year_monthly_oa($previousyear, $school);
+			// and year before that
+			$threeyearsago = $previousyear - 1;
+			$data['threeyearsagooa'] = $this->sro_model->get_year_monthly_oa($threeyearsago, $school);
+			
 			$this->load->view('templates/header', $data);
 			$this->load->view('sro/schoolsummary', $data);
 			$this->load->view('templates/footer');

@@ -19,7 +19,7 @@ $config['eprints_edit_record_url'] = "https://sro.sussex.ac.uk/cgi/users/home?sc
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://www.sussex.ac.uk/library/reports/sro/';
+$config['base_url']	= 'http://www.sussex.ac.uk/library/reports/sro/sro/';
 
 /*
 |--------------------------------------------------------------------------

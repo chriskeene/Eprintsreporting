@@ -61,7 +61,7 @@
 </thead>
 <tbody>
 <tr>
-<td>records added <?php echo $thisyear["name"] ?></td>
+<td>Records added <?php echo $thisyear["name"] ?></td>
 <?php //$thisyear = $schooltotals['monthlytotals']; 
     foreach ($monthlist as $monthname): ?>
 		<td><?php if (!empty($thisyear["$monthname"])) {
@@ -72,7 +72,7 @@
 	<td> <?php echo number_format($thisyear["Total"]) ?> </td>
 </tr>
 <tr>
-<td>records added <?php echo $previousyear["name"] ?></td>
+<td>Records added <?php echo $previousyear["name"] ?></td>
 <?php //$thisyear = $schooltotals['monthlytotals']; 
     foreach ($monthlist as $monthname): ?>
 		<td><?php if (!empty($previousyear["$monthname"])) {
@@ -83,6 +83,17 @@
 	<td> <?php echo number_format($previousyear["Total"]) ?> </td>
 </tr>
 
+<tr>
+<td>Records added <?php echo $threeyearsago["name"] ?></td>
+<?php 
+    foreach ($monthlist as $monthname): ?>
+		<td><?php if (!empty($threeyearsago["$monthname"])) {
+					echo $threeyearsago["$monthname"]; 
+				} ?>
+		</td>
+	<?php endforeach ?>
+	<td> <?php echo number_format($threeyearsago["Total"]) ?> </td>
+</tr>
 
 </tbody>
 </table>
