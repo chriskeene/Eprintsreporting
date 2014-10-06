@@ -95,8 +95,21 @@ class Sro extends CI_Controller {
 		$threeyearsago = $previousyear - 1;
 		$data['threeyearsago'] = $this->sro_model->get_year_new_records($threeyearsago);
 		//*******************************************************
+		// OA by month
+		$data['thisyearoa'] = $this->sro_model->get_year_monthly_oa($academicyear);
+		$previousyear = $academicyear - 1; // get previous academic year
+		$data['previousyearoa'] = $this->sro_model->get_year_monthly_oa($previousyear);
+		// and OA year before that
+		$threeyearsago = $previousyear - 1;
+		$data['threeyearsagooa'] = $this->sro_model->get_year_monthly_oa($threeyearsago);
+		//*******************************************************
+		// Views
 		$this->load->view('templates/header', $data);
 		$this->load->view('sro/summary', $data);
+		$this->load->view('records_per_month', $data);
+		$this->load->view('sro/open_access_items_added_by_month', $data);
+		$this->load->view('oa_by_type', $data);
+		$this->load->view('records_per_month_calendar_year', $data);
 		$this->load->view('templates/footer');
 		
 	}	
@@ -151,6 +164,8 @@ class Sro extends CI_Controller {
 			
 			$this->load->view('templates/header', $data);
 			$this->load->view('sro/schoolsummary', $data);
+			$this->load->view('records_per_month', $data);
+			$this->load->view('sro/open_access_items_added_by_month', $data);
 			$this->load->view('templates/footer');
 		}
 		else {
