@@ -161,7 +161,7 @@ class Sro extends CI_Controller {
 			// and year before that
 			$threeyearsago = $previousyear - 1;
 			$data['threeyearsagooa'] = $this->sro_model->get_year_monthly_oa($threeyearsago, $school);
-			
+			// Views
 			$this->load->view('templates/header', $data);
 			$this->load->view('sro/schoolsummary', $data);
 			$this->load->view('records_per_month', $data);

@@ -39,7 +39,7 @@
 */
 
 
-$route['default_controller'] = 'sro';
+//$route['default_controller'] = 'sro';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
