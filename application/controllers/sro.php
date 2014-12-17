@@ -113,6 +113,49 @@ class Sro extends CI_Controller {
 		$this->load->view('templates/footer');
 		
 	}	
+	
+	// for public statistics page
+	public function summarynoheaders()
+	{
+		// find FIRST calendar year for current academic year: 
+		// if aug-dec then current year (eg Oct2013 = 2013/14)
+		// if jan-jul it is the year before (eg Feb2013 = 2013/14)
+		$currentyear = date("Y");
+		$currentmonth = date("m");
+		if ($currentmonth > 7) {
+			$academicyear = $currentyear;
+		}
+		else {
+			$academicyear = $currentyear - 1;
+		}
+		
+		$data['total'] = $this->sro_model->get_total();
+		$data['oatotals'] = $this->sro_model->get_oatotal_bytype();
+		$data['monthtotals'] = $this->sro_model->get_newrecords_bymonth();
+		$data['title'] = $this->config->item('eprints_name'). ' Summary';
+		// ***************************************************
+		// get current academic year records
+		$data['thisyear'] = $this->sro_model->get_year_new_records($academicyear);
+		$previousyear = $academicyear - 1; // get previous academic year
+		$data['previousyear'] = $this->sro_model->get_year_new_records($previousyear);
+		// and year before that
+		$threeyearsago = $previousyear - 1;
+		$data['threeyearsago'] = $this->sro_model->get_year_new_records($threeyearsago);
+		//*******************************************************
+		// OA by month
+		$data['thisyearoa'] = $this->sro_model->get_year_monthly_oa($academicyear);
+		$previousyear = $academicyear - 1; // get previous academic year
+		$data['previousyearoa'] = $this->sro_model->get_year_monthly_oa($previousyear);
+		// and OA year before that
+		$threeyearsago = $previousyear - 1;
+		$data['threeyearsagooa'] = $this->sro_model->get_year_monthly_oa($threeyearsago);
+		//*******************************************************
+		// Views
+		$this->load->view('sro/summary', $data);
+		$this->load->view('records_per_month', $data);
+		$this->load->view('sro/open_access_items_added_by_month', $data);
+		//$this->load->view('oa_by_type', $data);
+	}	
 		
 	public function listoa($field, $value)
 	{

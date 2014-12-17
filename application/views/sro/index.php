@@ -42,3 +42,8 @@
 <p>.</p>
 <a class="twitter-timeline" href="https://twitter.com/search?q=sro.sussex.ac.uk%20OR%20%22sussex%20research%20online%22" data-widget-id="534659132922413056">Tweets about sro.sussex.ac.uk OR "sussex research online"</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<iframe src="http://sro.sussex.ac.uk/cgi/irstats.cgi?page=get_view2&IRS_epchoice=All&divisionss=dummy&subjectss=dummy&creators_names=dummy&eprint=&IRS_datechoice=period&period=-12m&start_day=1&start_month=1&start_year=2005&end_day=31&end_month=1&end_year=2005&view=MonthlyDownloadsGraph" width="530" height="330">
+
+</iframe>
