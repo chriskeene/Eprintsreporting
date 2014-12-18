@@ -222,4 +222,20 @@ class Sro extends CI_Controller {
 		}
 		
 	}
+	
+	
+	public function embargoexpire()
+	{
+		$data['items'] = $this->sro_model->get_embargoexpire();
+		$data['title'] = $this->config->item('eprints_name'). ' Full text items with embargo expiring';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('embargoitems', $data);
+		$this->load->view('templates/footer');
+
+	}
+	
+	
+	
+	
 }
