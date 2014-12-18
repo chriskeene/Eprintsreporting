@@ -19,6 +19,18 @@ class Sro extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 	
+		public function admin()
+	{
+		$data['total'] = $this->sro_model->get_total();
+		$data['oatotals'] = $this->sro_model->get_oatotal_bytype();
+		$data['monthtotals'] = $this->sro_model->get_newrecords_bymonth();
+		$data['title'] = 'SRO Reporting';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('backoffice', $data);
+		$this->load->view('templates/footer');
+	}
+	
 	public function getrecentoa()
 	{
 		$data['items'] = $this->sro_model->get_recentoaitems();
@@ -223,7 +235,7 @@ class Sro extends CI_Controller {
 		
 	}
 	
-	
+	// show list of full text items which have an embargo which is soon to expire.
 	public function embargoexpire()
 	{
 		$data['items'] = $this->sro_model->get_embargoexpire();

@@ -31,11 +31,14 @@
 <li><a href="school">Schools statistics</a></li>
 <li><a href="getrecentoa">Records with OA metadata</a></li>
 <li><a href="getrecentfunder">Records with funder metadata</a></li>
+<li><a href="embargoexpire">Full text items with embargo expiring</a></li>
 </ul>
 <h3>Data issue reports</h3>
 <ul>
-<li><a href="admin">See Admin menu page</a></li>
-
+<li><a href="notsetaspublished/12">items not set as published added more than 12 months a go</a></li>
+<li><a href="notsetaspublished">all items not set as published</a></li>
+<li>articles with no: journal title, ISSN, DOI</li>
+<li><a href="nojournaltitles"> articles with no journal title</a></li>
 </ul>
 
 
