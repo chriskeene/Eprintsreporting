@@ -9,7 +9,6 @@ class Sro_model extends CI_Model {
 
 	public function get_items()
 	{
-		
 		$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished
 			from eprint e
 			where e.eprintid = "10000"
@@ -58,6 +57,7 @@ class Sro_model extends CI_Model {
 		
 	}
 	
+	// total number of records live in the system
 	public function get_total()
 	{
 		return $this->db->select('count(*) as total')
@@ -321,7 +321,8 @@ class Sro_model extends CI_Model {
 				->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 				->where('e.eprint_status', "archive")
 				->like('f.format', 'application', 'after')
-				->where('f.security', 'public')
+				
+				->where('(SECURITY = "public" OR f.date_embargo_year is not null)')
 				->where('a.pos', '1');
 		if (!empty($school)) {			
 			$this->db->where('t.subjectid', $school);
