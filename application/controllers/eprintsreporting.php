@@ -15,7 +15,7 @@ class eprintsreporting extends CI_Controller {
 		$data['title'] = 'SRO Reporting';
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/index', $data);
+		$this->load->view('index', $data);
 		$this->load->view('templates/footer');
 	}
 	
@@ -36,7 +36,7 @@ class eprintsreporting extends CI_Controller {
 		$data['items'] = $this->eprintsreporting_model->get_recentoaitems();
 		$data['title'] = $this->config->item('eprints_name'). ' recent oa items';
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/recentoaitems', $data);
+		$this->load->view('recentoaitems', $data);
 		$this->load->view('templates/footer');
 	}
 	
@@ -45,7 +45,7 @@ class eprintsreporting extends CI_Controller {
 		$data['items'] = $this->eprintsreporting_model->get_recentfunderitems();
 		$data['title'] = $this->config->item('eprints_name'). ' recent funder items';
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/recentfunderitems', $data);
+		$this->load->view('recentfunderitems', $data);
 		$this->load->view('templates/footer');
 	}
 
@@ -55,7 +55,7 @@ class eprintsreporting extends CI_Controller {
 		$data['items'] = $this->eprintsreporting_model->get_recentoaitems();
 		$data['title'] = $this->config->item('eprints_name'). ' item';
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/item', $data);
+		$this->load->view('item', $data);
 		$this->load->view('templates/footer');
 	}
 	
@@ -65,7 +65,7 @@ class eprintsreporting extends CI_Controller {
 		$data['title'] = $this->config->item('eprints_name'). ' articles with no journal title';
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/nojournaltitles', $data);
+		$this->load->view('nojournaltitles', $data);
 		$this->load->view('templates/footer');
 	}
 	
@@ -76,7 +76,7 @@ class eprintsreporting extends CI_Controller {
 		$data['months'] = $months;
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/notsetaspublished', $data);
+		$this->load->view('notsetaspublished', $data);
 		$this->load->view('templates/footer');
 	}
 	
@@ -117,9 +117,9 @@ class eprintsreporting extends CI_Controller {
 		//*******************************************************
 		// Views
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/summary', $data);
+		$this->load->view('summary', $data);
 		$this->load->view('records_per_month', $data);
-		$this->load->view('sro/open_access_items_added_by_month', $data);
+		$this->load->view('open_access_items_added_by_month', $data);
 		$this->load->view('oa_by_type', $data);
 		$this->load->view('records_per_month_calendar_year', $data);
 		$this->load->view('templates/footer');
@@ -163,9 +163,9 @@ class eprintsreporting extends CI_Controller {
 		$data['threeyearsagooa'] = $this->eprintsreporting_model->get_year_monthly_oa($threeyearsago);
 		//*******************************************************
 		// Views
-		$this->load->view('sro/summary', $data);
+		$this->load->view('summary', $data);
 		$this->load->view('records_per_month', $data);
-		$this->load->view('sro/open_access_items_added_by_month', $data);
+		$this->load->view('open_access_items_added_by_month', $data);
 		//$this->load->view('oa_by_type', $data);
 	}	
 		
@@ -175,7 +175,7 @@ class eprintsreporting extends CI_Controller {
 		$data['title'] = $this->config->item('eprints_name'). ' Open Access items list';
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/oalist', $data);
+		$this->load->view('oalist', $data);
 		$this->load->view('templates/footer');
 	}
 	
@@ -218,16 +218,16 @@ class eprintsreporting extends CI_Controller {
 			$data['threeyearsagooa'] = $this->eprintsreporting_model->get_year_monthly_oa($threeyearsago, $school);
 			// Views
 			$this->load->view('templates/header', $data);
-			$this->load->view('sro/schoolsummary', $data);
+			$this->load->view('schoolsummary', $data);
 			$this->load->view('records_per_month', $data);
-			$this->load->view('sro/open_access_items_added_by_month', $data);
+			$this->load->view('open_access_items_added_by_month', $data);
 			$this->load->view('templates/footer');
 		}
 		else {
 			$data['schooltotals'] = $this->eprintsreporting_model->get_schools_year();
 			$data['title'] = $this->config->item('eprints_name'). ' Schools summary';
 			$this->load->view('templates/header', $data);
-			$this->load->view('sro/schoolssummary', $data);
+			$this->load->view('schoolssummary', $data);
 			$this->load->view('templates/footer');
 	
 		

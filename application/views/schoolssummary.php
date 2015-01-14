@@ -1,8 +1,4 @@
 
-<p><?php //print_r($schooltotals); //echo "Total live records: " . number_format($total[0]->total);  ?></p>
-
-
-
 <table class="style1 stripe">
 <thead>
 	<tr>
@@ -17,7 +13,7 @@
 <?php foreach ($schooltotals as $schooltotal): ?>
 	<?php //if (empty($oatotal->type)) { $oatotal->type = "total"; } ?>
 	<tr>
-	<td><?php echo '<a href="/library/reports/sro/sro/school/' . $schooltotal['schoolid'] . '">' .
+	<td><?php echo '<a href="school/' . $schooltotal['schoolid'] . '">' .
 	$schooltotal['schoolname'] . '</a>' ?></td>
 	<td><?php echo number_format($schooltotal['schooltotalrecords']) ?></td>
 	<td><?php echo $schooltotal['schoolid'] ?></td>

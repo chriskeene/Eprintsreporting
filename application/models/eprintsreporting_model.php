@@ -321,7 +321,7 @@ class eprintsreporting_model extends CI_Model {
 				->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 				->where('e.eprint_status', "archive")
 				->like('f.format', 'application', 'after')
-				->where('(SECURITY = "public" OR f.date_embargo_year is not null)')
+				->where('(f.security = "public" OR f.date_embargo_year is not null)')
 				->where('a.pos', '1');
 		if (!empty($school)) {			
 			$this->db->where('t.subjectid', $school);
