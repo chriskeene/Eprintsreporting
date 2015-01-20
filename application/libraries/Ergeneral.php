@@ -23,6 +23,11 @@ class ergeneral {
 		return $academicyear;
 	}
 	
+	public function get_academicmonthlist()
+	{
+		return array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); 
+	}
+	
 }
 
 /* End of file eprintsreporting.php */

@@ -1,4 +1,9 @@
-<?php $monthlist = array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); ?>
+<?php
+		// load a library for eprintsreporting common functions
+		$this->load->library('ergeneral');
+		// list of academic months
+		$monthlist = $this->ergeneral->get_academicmonthlist();
+?>
 
 
 

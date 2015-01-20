@@ -4,58 +4,10 @@ class eprintsreporting_model extends CI_Model {
 	public function __construct()
 	{
 		$this->load->database();
+		// load a library for eprintsreporting common functions
+		//$this->load->library('ergeneral');
 	}
 
-
-	public function get_items()
-	{
-		$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished
-			from eprint e
-			where e.eprintid = "10000"
-			AND eprint_status = "archive"
-			AND type = "article"
-			ORDER BY e.datestamp_year desc, e.datestamp_month
-			');
-		return $query->row_array();
-	}
-	
-	public function get_nojournaltitle()
-	{
-			$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished, e.issn
-			from eprint e
-			where (publication is null or publication = "")
-			AND eprint_status = "archive"
-			AND type = "article"
-			ORDER BY e.datestamp_year desc, e.datestamp_month
-			');
-			return $query->result_array();
-	}
-	
-
-	public function get_notsetaspublished($months="0")
-	{
-		// find out the year we want, based on number of months we are going back
-		$getyear = date('Y', strtotime("-$months month"));
-		// find out the month we want based on the number of months we are going back
-		$getmonth = date('m', strtotime("-$months month"));
-		// so if 12 and today is 1/sept/2014 the get stuff from BEFORE 2013
-		// OR ON or BEFORE 2013 AND ON or BEFORE 9
-		$query = $this->db->query('
-			select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, e.title, e.ispublished, e.type, e.date_year as pubyear, e.date_month as pubmonth, e.publication,
-			e.id_number, e.volume, e.number
-			from eprint e
-			where e.ispublished != "pub"
-			and e.eprintid > 10000
-			and e.eprint_status = "archive"
-			and (e.datestamp_year < ' . $getyear . '
-				OR e.datestamp_year <= ' . $getyear . ' AND e.datestamp_month <= ' . $getmonth . ')
-			and e.`type` != "thesis"
-			order by e.type, e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
-		');
-		return $query->result_array();
-		
-		
-	}
 	
 	// total number of records live in the system
 	public function get_total()
@@ -194,6 +146,25 @@ class eprintsreporting_model extends CI_Model {
 		return $schoolarray;
 	}
 	
+	//get a list of schools 
+	public function get_schoollist()
+	{
+		return $this->db->select('t.subjectid as "schoolid", t.name_name as "schoolname"')
+						->from('eprint e')
+						->join('eprint_divisions d', 'e.eprintid = d.eprintid')
+						->join('subject_ancestors a', 'd.divisions = a.subjectid')
+						->join('subject_name_name t', 'a.ancestors = t.subjectid')
+						->where('e.eprint_status', "archive")
+						->where('t.subjectid not like "d%"')
+						->where('a.pos', '1')
+						->group_by('t.name_name')
+						->order_by('t.name_name')
+						->get()
+                        ->result();
+	
+	}
+	
+	
 	public function get_recentoaitems()
 	{
 		$query = $this->db->query('select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, 
@@ -246,6 +217,60 @@ class eprintsreporting_model extends CI_Model {
 		');
 		return $query->result_array();
 	}
+	
+	
+		public function get_items()
+	{
+		$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished
+			from eprint e
+			where e.eprintid = "10000"
+			AND eprint_status = "archive"
+			AND type = "article"
+			ORDER BY e.datestamp_year desc, e.datestamp_month
+			');
+		return $query->row_array();
+	}
+	
+	public function get_nojournaltitle()
+	{
+			$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished, e.issn
+			from eprint e
+			where (publication is null or publication = "")
+			AND eprint_status = "archive"
+			AND type = "article"
+			ORDER BY e.datestamp_year desc, e.datestamp_month
+			');
+			return $query->result_array();
+	}
+	
+
+	public function get_notsetaspublished($months="0")
+	{
+		// find out the year we want, based on number of months we are going back
+		$getyear = date('Y', strtotime("-$months month"));
+		// find out the month we want based on the number of months we are going back
+		$getmonth = date('m', strtotime("-$months month"));
+		// so if 12 and today is 1/sept/2014 the get stuff from BEFORE 2013
+		// OR ON or BEFORE 2013 AND ON or BEFORE 9
+		$query = $this->db->query('
+			select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, e.title, e.ispublished, e.type, e.date_year as pubyear, e.date_month as pubmonth, e.publication,
+			e.id_number, e.volume, e.number
+			from eprint e
+			where e.ispublished != "pub"
+			and e.eprintid > 10000
+			and e.eprint_status = "archive"
+			and (e.datestamp_year < ' . $getyear . '
+				OR e.datestamp_year <= ' . $getyear . ' AND e.datestamp_month <= ' . $getmonth . ')
+			and e.`type` != "thesis"
+			order by e.type, e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
+		');
+		return $query->result_array();
+		
+		
+	}
+	
+	
+	
 	
 	// get total number of new records per month for one given academic year
 	// for a specific school if given.

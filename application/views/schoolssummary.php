@@ -1,11 +1,19 @@
-
+<?php
+		// load a library for eprintsreporting common functions
+		$this->load->library('ergeneral');
+		// list of academic months
+		$monthlist = $this->ergeneral->get_academicmonthlist();
+?>
+<?php //print_r($schoollist);
+//print_r($schooloa);
+ ?>
 <table class="style1 stripe">
 <thead>
 	<tr>
-		<th>type</th>
-		<th>total</th>
-		<th>school id </th>
-		<th>oa </th>
+		<th>School</th>
+		<th>Total records</th>
+
+		<th>Total Open Access items</th>
 
 	</tr>
 </thead>
@@ -16,10 +24,88 @@
 	<td><?php echo '<a href="school/' . $schooltotal['schoolid'] . '">' .
 	$schooltotal['schoolname'] . '</a>' ?></td>
 	<td><?php echo number_format($schooltotal['schooltotalrecords']) ?></td>
-	<td><?php echo $schooltotal['schoolid'] ?></td>
 	<td><?php echo $schooltotal['schooloatotal'] ?></td>
 
 	</tr>
 	<?php endforeach ?>
 </tbody>
 </table>
+<h3>Records added per month</h3>
+
+<table class="style1 stripe">
+<thead>
+	<tr>
+		<th>School</th>
+		<?php foreach ($monthlist as $monthname): ?>
+		<th><?php echo $monthname ?></th>
+		<?php endforeach ?>
+		<th>Total records added this year</th>
+
+	</tr>
+</thead>
+<tbody>
+
+
+<?php foreach ($schoollist as $school): ?>
+	<tr>
+	<td><?php echo '<a href="school/' . $school->schoolid . '">' .
+	$school->schoolname . '</a> ('. $school->schoolid . ')' ?></td>
+
+	<?php 
+    foreach ($monthlist as $monthname): ?>
+			<td><?php if (!empty($schoolrecords[$school->schoolid]["$monthname"])) {
+					echo $schoolrecords[$school->schoolid]["$monthname"]; 
+				} ?>
+		</td>	
+	<?php endforeach ?>
+	
+	<td> <?php echo number_format($schoolrecords[$school->schoolid]["Total"]) ?> </td>
+	
+
+
+	</tr>
+	<?php endforeach ?>
+</tbody>
+</table>
+
+<h3>Open Access added per month</h3>
+
+<table class="style1 stripe">
+<thead>
+	<tr>
+		<th>School</th>
+		<?php foreach ($monthlist as $monthname): ?>
+		<th><?php echo $monthname ?></th>
+		<?php endforeach ?>
+		<th>Total Open Access added</th>
+
+	</tr>
+</thead>
+<tbody>
+
+
+<?php foreach ($schoollist as $school): ?>
+	<tr>
+	<td><?php echo '<a href="school/' . $school->schoolid . '">' .
+	$school->schoolname . '</a> ('. $school->schoolid . ')' ?></td>
+
+	<?php 
+    foreach ($monthlist as $monthname): ?>
+			<td><?php if (!empty($schooloa[$school->schoolid]["$monthname"])) {
+					echo $schooloa[$school->schoolid]["$monthname"]; 
+				} ?>
+		</td>	
+	<?php endforeach ?>
+	
+	<td> <?php echo number_format($schooloa[$school->schoolid]["Total"]) ?> </td>
+	
+
+
+	</tr>
+	<?php endforeach ?>
+</tbody>
+</table>
+
+
+
+

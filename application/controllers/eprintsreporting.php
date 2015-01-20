@@ -124,7 +124,7 @@ class eprintsreporting extends CI_Controller {
 	public function summarynoheaders()
 	{
 		//find out current academic year (which starts in august).
-		$academicyear = $this->ergeneral->getacademicyear();
+		$academicyear = $this->ergeneral->get_academicyear();
 		
 		$data['total'] = $this->eprintsreporting_model->get_total();
 		$data['oatotals'] = $this->eprintsreporting_model->get_oatotal_bytype();
@@ -202,6 +202,17 @@ class eprintsreporting extends CI_Controller {
 		else {
 			$data['schooltotals'] = $this->eprintsreporting_model->get_schools_year();
 			$data['title'] = $this->config->item('eprints_name'). ' Schools summary';
+			// get list of schools
+			$data['schoollist'] = $this->eprintsreporting_model->get_schoollist();
+			// for each school get total of monthly add items
+			foreach ($data['schoollist'] as $oneschool) {
+				// for this school, get the number of records added for this academic year
+				$data['schoolrecords'][$oneschool->schoolid] = $this->eprintsreporting_model->get_year_new_records($academicyear, $oneschool->schoolid);
+				// for this school, get the number of oa items added this academic year
+				$data['schooloa'][$oneschool->schoolid] = $this->eprintsreporting_model->get_year_monthly_oa($academicyear, $oneschool->schoolid);
+				//$data['schooloa'][$oneschool->schoolid]['schoolname'] = $oneschool->schoolname;
+			}
+			
 			$this->load->view('templates/header', $data);
 			$this->load->view('schoolssummary', $data);
 			$this->load->view('templates/footer');
