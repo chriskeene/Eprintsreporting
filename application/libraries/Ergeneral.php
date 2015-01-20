@@ -2,11 +2,6 @@
 
 class ergeneral {
 
-    public function some_function()
-    {
-		echo "hello";
-    }
-	
 	public function get_academicyear()
 	{
 		// find FIRST calendar year for current academic year: 
@@ -23,6 +18,7 @@ class ergeneral {
 		return $academicyear;
 	}
 	
+	// return a list of academic month names in the right order.
 	public function get_academicmonthlist()
 	{
 		return array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); 

@@ -30,8 +30,9 @@
 	<?php endforeach ?>
 </tbody>
 </table>
-<h3>Records added per month</h3>
 
+
+<h3>Records added per month</h3>
 <table class="style1 stripe">
 <thead>
 	<tr>
@@ -44,8 +45,6 @@
 	</tr>
 </thead>
 <tbody>
-
-
 <?php foreach ($schoollist as $school): ?>
 	<tr>
 	<td><?php echo '<a href="school/' . $school->schoolid . '">' .
@@ -57,19 +56,16 @@
 					echo $schoolrecords[$school->schoolid]["$monthname"]; 
 				} ?>
 		</td>	
-	<?php endforeach ?>
+	<?php endforeach // end of each month for this school. ?>
 	
 	<td> <?php echo number_format($schoolrecords[$school->schoolid]["Total"]) ?> </td>
-	
-
-
 	</tr>
-	<?php endforeach ?>
+	<?php endforeach // school list each school ?> 
 </tbody>
 </table>
 
-<h3>Open Access added per month</h3>
 
+<h3>Open Access added per month</h3>
 <table class="style1 stripe">
 <thead>
 	<tr>
@@ -82,8 +78,6 @@
 	</tr>
 </thead>
 <tbody>
-
-
 <?php foreach ($schoollist as $school): ?>
 	<tr>
 	<td><?php echo '<a href="school/' . $school->schoolid . '">' .
