@@ -85,17 +85,8 @@ class eprintsreporting extends CI_Controller {
 	
 	public function summary()
 	{
-		// find FIRST calendar year for current academic year: 
-		// if aug-dec then current year (eg Oct2013 = 2013/14)
-		// if jan-jul it is the year before (eg Feb2013 = 2013/14)
-		$currentyear = date("Y");
-		$currentmonth = date("m");
-		if ($currentmonth > 7) {
-			$academicyear = $currentyear;
-		}
-		else {
-			$academicyear = $currentyear - 1;
-		}
+		//find out current academic year (which starts in august).
+		$academicyear = $this->ergeneral->get_academicyear();
 		
 		$data['total'] = $this->eprintsreporting_model->get_total();
 		$data['oatotals'] = $this->eprintsreporting_model->get_oatotal_bytype();
@@ -176,7 +167,7 @@ class eprintsreporting extends CI_Controller {
 	public function school($school="")
 	{
 		//find out current academic year (which starts in august).
-		$academicyear = $this->ergeneral->getacademicyear();
+		$academicyear = $this->ergeneral->get_academicyear();
 		
 		// a summary of all schools, unless we have been passed a school code.
 		if ($school) {

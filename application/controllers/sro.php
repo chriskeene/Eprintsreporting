@@ -1,5 +1,5 @@
 <?php
-class eprintsreporting extends CI_Controller {
+class sro extends CI_Controller {
 
 	public function __construct()
 	{
@@ -15,7 +15,7 @@ class eprintsreporting extends CI_Controller {
 		$data['title'] = 'SRO Reporting';
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('sro/index', $data);
+		$this->load->view('srocontroller', $data);
 		$this->load->view('templates/footer');
 	}
 	

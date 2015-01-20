@@ -60,7 +60,7 @@
             </div>
             <div id="breadcrumbs"> 
                 <ul> 
-                    <li class="first"><a href="/schoolsandservices">Schools and services</a></li><li><a href="/library">Library</a></li><li><a href="/library/reports/sro/sro/">SRO Reporting</a></li><li class="last"><a href="/library/index"><?php echo $title ?> </a></li> 
+                    <li class="first"><a href="/schoolsandservices">Schools and services</a></li><li><a href="/library">Library</a></li><li><a href="/library/reports/sro/eprintsreporting/">SRO Reporting</a></li><li class="last"><a href="/library/"><?php echo $title ?> </a></li> 
                 </ul> 
             </div>
             <div id="columns" class="c"> 
