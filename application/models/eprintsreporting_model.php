@@ -21,7 +21,7 @@ class eprintsreporting_model extends CI_Model {
 	
 	public function get_oatotal_bytype()
 	{
-		return $this->db->select('count(*) as total, e.type')
+		return $this->db->select('count(distinct e.eprintid) as total, e.type')
 						->from('document f')
 						->join('eprint e', 'e.eprintid = f.eprintid')
 						->where('e.eprint_status', "archive")
@@ -84,7 +84,7 @@ class eprintsreporting_model extends CI_Model {
 		}
 		
 		// now add oa totals to each school
-		$query = $this->db->select('count(*) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
+		$query = $this->db->select('count(distinct e.eprintid) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
 					->from('document f')
 					->join('eprint e' , 'e.eprintid = f.eprintid')
 					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
@@ -126,7 +126,7 @@ class eprintsreporting_model extends CI_Model {
 			$schoolarray["totalrecords"] = "$row->total";
 		}
 		// now get oa data.
-		$query = $this->db->select('count(*) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
+		$query = $this->db->select('count(distinct e.eprintid) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
 					->from('document f')
 					->join('eprint e' , 'e.eprintid = f.eprintid')
 					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
