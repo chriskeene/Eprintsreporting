@@ -164,6 +164,32 @@ class eprintsreporting_model extends CI_Model {
 	
 	}
 	
+	//get a list of most popular journals 
+	public function get_topjournals($years="4", $school="")
+	{
+		$startdate = date("Y") - $years;
+		return $this->db->select('count(distinct e.eprintid) as total, publication, type, e.publisher, group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as "authors"', FALSE)
+						->from('eprint e')
+						->join('eprint_divisions d', 'e.eprintid = d.eprintid')
+						->join('subject_ancestors a', 'd.divisions = a.subjectid')
+						->join('subject_name_name t', 'a.ancestors = t.subjectid')
+						->join('eprint_creators_id i', 'e.eprintid = i.eprintid')
+						->join('eprint_creators_name n', 'n.eprintid = i.eprintid AND n.pos = i.pos')
+						->where('e.eprint_status', "archive")
+						->where('publication is not null')
+						->where('a.pos', '1')
+						->where('e.date_year >', $startdate)
+						->where('t.subjectid', $school)
+						->where('i.creators_id is not null')
+						->where('type', 'article')
+						->group_by('upper(publication)')
+						->order_by('count(distinct e.eprintid) desc')
+						->limit('20')
+						->get()
+                        ->result();
+	
+	}
+	
 	
 	public function get_recentoaitems()
 	{

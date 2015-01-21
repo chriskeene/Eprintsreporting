@@ -17,7 +17,7 @@
 	</tr>
 	
 	<tr>
-	<td>Total OA Records</td>
+	<td>Total public Open Access Records</td>
 	<td><?php echo number_format(end($oatotals)->total); // total comes as last array elment
 	 ?>
 	 </td>

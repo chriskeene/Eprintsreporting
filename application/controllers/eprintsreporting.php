@@ -121,7 +121,7 @@ class eprintsreporting extends CI_Controller {
 	}	
 	
 	// for public statistics page
-	public function summarynoheaders()
+	public function briefsummarynoheaders()
 	{
 		//find out current academic year (which starts in august).
 		$academicyear = $this->ergeneral->get_academicyear();
@@ -130,28 +130,12 @@ class eprintsreporting extends CI_Controller {
 		$data['oatotals'] = $this->eprintsreporting_model->get_oatotal_bytype();
 		$data['monthtotals'] = $this->eprintsreporting_model->get_newrecords_bymonth();
 		$data['title'] = $this->config->item('eprints_name'). ' Summary';
-		// ***************************************************
-		// get current academic year records
 		$data['thisyear'] = $this->eprintsreporting_model->get_year_new_records($academicyear);
-		$previousyear = $academicyear - 1; // get previous academic year
-		$data['previousyear'] = $this->eprintsreporting_model->get_year_new_records($previousyear);
-		// and year before that
-		$threeyearsago = $previousyear - 1;
-		$data['threeyearsago'] = $this->eprintsreporting_model->get_year_new_records($threeyearsago);
-		//*******************************************************
-		// OA by month
-		$data['thisyearoa'] = $this->eprintsreporting_model->get_year_monthly_oa($academicyear);
-		$previousyear = $academicyear - 1; // get previous academic year
-		$data['previousyearoa'] = $this->eprintsreporting_model->get_year_monthly_oa($previousyear);
-		// and OA year before that
-		$threeyearsago = $previousyear - 1;
-		$data['threeyearsagooa'] = $this->eprintsreporting_model->get_year_monthly_oa($threeyearsago);
+		
 		//*******************************************************
 		// Views
 		$this->load->view('summary', $data);
-		$this->load->view('records_per_month', $data);
-		$this->load->view('open_access_items_added_by_month', $data);
-		//$this->load->view('oa_by_type', $data);
+
 	}	
 		
 	public function listoa($field, $value)
@@ -192,11 +176,19 @@ class eprintsreporting extends CI_Controller {
 			// and year before that
 			$threeyearsago = $previousyear - 1;
 			$data['threeyearsagooa'] = $this->eprintsreporting_model->get_year_monthly_oa($threeyearsago, $school);
+			//**********************************************
+			// top journals
+			$yearsback = "5";
+			$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
+			$data['topjournals'] = $this->eprintsreporting_model->get_topjournals($yearsback, $school);
+			$data['topjournalstext'] = 'The journals most frequently published since ' . 
+			$realstartyear . ' including articles yet to be published.';
 			// Views
 			$this->load->view('templates/header', $data);
 			$this->load->view('schoolsummary', $data);
 			$this->load->view('records_per_month', $data);
 			$this->load->view('open_access_items_added_by_month', $data);
+			$this->load->view('topjournals', $data);
 			$this->load->view('templates/footer');
 		}
 		else {
