@@ -362,7 +362,7 @@ class eprintsreporting_model extends CI_Model {
 		// some slightly fancy stuff to get the date back in various ways, including three digit month
 		// only (jan, feb) as nicemonth and year month, which includes a 0 before single digit months, 
 		// ensuring their sort correctly. (which may or may not be important later)
-		$query = $this->db->select('Count(*) as "total", e.datestamp_year as year, 
+		$query = $this->db->select('Count(distinct e.eprintid) as "total", e.datestamp_year as year, 
 			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%Y/%m\') as yearmonth,
 			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%b\') as nicemonth', FALSE)
 				->from('document f')
