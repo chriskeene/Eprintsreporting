@@ -7,7 +7,7 @@
 		<th>Number of articles</th>
 		<th>Journal title</th>
 		<th>Publisher</th>
-		<th>Sussex authors (in no order)</th>
+		<th><?php echo $this->config->item('org_name'); ?> authors (in no order)</th>
 
 	</tr>
 </thead>

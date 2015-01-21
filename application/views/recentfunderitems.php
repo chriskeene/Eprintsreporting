@@ -3,7 +3,7 @@
 	<tr>
 		<th><?php echo $this->config->item('eprints_name') ?> id</th>
 		<th>title</th>
-		<th>Sussex authors</th>
+		<th><?php echo $this->config->item('org_name'); ?> authors</th>
 		<th>date added</th>
 		<th>date published</th>
 		<th>funder(s)</th>

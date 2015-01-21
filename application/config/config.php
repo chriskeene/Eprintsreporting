@@ -1,8 +1,14 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /* Repository reporting config */
+// Name of Eprints Repository
 $config['eprints_name'] = "SRO";
+// Short name of orgnaisation
+$config['org_name'] = "Sussex";
+//homepage of repository
 $config['eprints_record_url'] = "http://sro.sussex.ac.uk/";
+// base url to edit a record (eprintid will be added to the end). 
+// Can probably just replace host/domain with your own
 $config['eprints_edit_record_url'] = "https://sro.sussex.ac.uk/cgi/users/home?screen=EPrint::View&eprintid=";
 
 /*
