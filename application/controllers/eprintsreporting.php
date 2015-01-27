@@ -226,6 +226,20 @@ class eprintsreporting extends CI_Controller {
 
 	}
 	
+	// show list items for a school that have an author from another School. interdisciplinary
+	public function interdisciplinary($school="s921")
+	{
+		$data['items'] = $this->eprintsreporting_model->get_interdisciplinary($school);
+		$schoolnames = $this->eprintsreporting_model->get_schoolnames();
+		$data['title'] = $this->config->item('eprints_name'). ': ' . $schoolnames[$school] . ' interdisciplinary research';
+	
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('interdisciplinary', $data);
+		$this->load->view('templates/footer');
+
+	}
+	
 	
 	
 	

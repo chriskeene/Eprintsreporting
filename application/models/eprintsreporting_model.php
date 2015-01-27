@@ -415,5 +415,58 @@ class eprintsreporting_model extends CI_Model {
 					
 	}
 	
+	// Show items that involved another school, for a given school, i.e. interdisciplinary research
+	public function get_interdisciplinary($school="s921")
+	{
+
+		$query = $this->db->query('
+			Select e.eprintid, group_concat(DISTINCT t.name_name) As "Schools", e.title, e.`type`, e.date_year as datepublished, 
+			group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
+			e.id_number, e.publisher, e.publication as "journaltitle"
+			 from eprint e 
+			 JOIN eprint_divisions d ON e.eprintid = d.eprintid
+			 JOIN subject_name_name s ON d.divisions = s.subjectid
+			 JOIN subject_ancestors a ON d.divisions = a.subjectid
+			 JOIN subject_name_name t ON a.ancestors = t.subjectid
+			 JOIN eprint_creators_id i on e.eprintid = i.eprintid
+			 JOIN eprint_creators_name n on n.eprintid = i.eprintid AND n.pos = i.pos
+
+			 where e.eprintid in (
+			 
+					 SELECT  d.eprintid
+					 from eprint_divisions d
+					 JOIN subject_name_name s ON d.divisions = s.subjectid
+					 JOIN subject_ancestors a ON d.divisions = a.subjectid
+					 JOIN subject_name_name t ON a.ancestors = t.subjectid
+					 where a.pos = 1
+					 and t.subjectid = "' . $school . '"
+					 
+			 )
+			and a.pos = 1
+			and t.subjectid != "' . $school . '"
+			and e.eprint_status = "archive"
+			and i.creators_id is not null
+			and e.date_year > 2010
+			group by e.eprintid
+			order by e.date_year desc');
+			return $query->result_array();
+	}
+	
+	// get list schoolnames
+	public function get_schoolnames()
+	{
+		$query = $this->db->select('subjectid as schoolid, name_name as schoolname')
+					->from('subject_name_name')
+					->where('subjectid like "s%"')
+					->where('subjectid != "subjects"' )
+					->order_by('name_name');
+					$query = $this->db->get();
+		// that was the SQL, now add each total to an array.			
+		foreach ($query->result() as $row) {
+			$schools["$row->schoolid"] = "$row->schoolname";
+		}
+        return $schools;         
+					
+	}
 	
 }

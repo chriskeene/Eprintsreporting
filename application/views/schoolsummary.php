@@ -22,4 +22,8 @@
 </tbody>
 </table>
 
+<p><a href="../interdisciplinary/<?php echo $schooltotals['schoolid']; ?>">List of interdisciplinary research</a>.</p>
+
+
+
 
