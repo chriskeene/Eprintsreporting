@@ -469,4 +469,16 @@ class eprintsreporting_model extends CI_Model {
 					
 	}
 	
+	// get info on a author
+	public function get_authorinfo($author)
+	{
+		return $this->db->select('u.userid, u.username, u.email, concat(u.name_given, " ", u.name_family) as name,
+		u.person_id',FALSE)
+					->from('user u')
+					->where('u.person_id', $author)
+					->limit(1)
+					->get()
+                    ->result();				
+	}
+	
 }

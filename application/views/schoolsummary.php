@@ -1,6 +1,4 @@
 
-<p><?php //print_r($schooltotals);  ?></p>
-
 <?php $monthlist = array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); ?>
 
 <table class="style1 stripe">
