@@ -245,7 +245,7 @@ class eprintsreporting_model extends CI_Model {
 	}
 	
 	
-		public function get_items()
+	public function get_items()
 	{
 		$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished
 			from eprint e
@@ -317,17 +317,17 @@ class eprintsreporting_model extends CI_Model {
 		$this->db->select('Count(*) as "total", e.datestamp_year as year, 
 			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%Y/%m\') as yearmonth,
 			DATE_FORMAT(concat(e.datestamp_year, "-", e.datestamp_month, "-1 09:00:00"), \'%b\') as nicemonth', FALSE)
-					->from('eprint e')
-					->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+					->from('eprint e');
+			if (!empty($school)) {			
+					$this->db->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
 					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
 					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
-					->where('e.eprint_status', "archive")
+					->where('t.subjectid', $school)
 					->where('a.pos', '1');
-		if (!empty($school)) {			
-			$this->db->where('t.subjectid', $school);
-		}
-		$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
+			}
+			$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
 						OR (e.datestamp_year = $startyear and e.datestamp_month > 7 ))")
+					->where('e.eprint_status', "archive")
 					->group_by('yearmonth with rollup');
 					
 		$query = $this->db->get();
