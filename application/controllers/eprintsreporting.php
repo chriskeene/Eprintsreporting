@@ -250,6 +250,20 @@ class eprintsreporting extends CI_Controller {
 	
 	}
 	
+	public function gettopjournals($yearsback="5")
+	{
+		$data['topjournals'] = $this->eprintsreporting_model->get_topjournals($yearsback);
+		$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
+		$data['topjournalstext'] = 'The journals most frequently published since ' . 
+		$realstartyear . ' including articles yet to be published.';
+	
+		$data['title'] = $this->config->item('eprints_name'). ' Journals most published in';
+		$this->load->view('templates/header', $data);
+		$this->load->view('topjournals', $data);
+		$this->load->view('templates/footer');
+	
+	}
+	
 	
 	
 }

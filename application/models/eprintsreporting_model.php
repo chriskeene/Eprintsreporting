@@ -164,11 +164,14 @@ class eprintsreporting_model extends CI_Model {
 	
 	}
 	
+	
+
+	////////////////////////////////////////
 	//get a list of most popular journals 
 	public function get_topjournals($years="4", $school="")
 	{
 		$startdate = date("Y") - $years;
-		return $this->db->select('count(distinct e.eprintid) as total, publication, type, e.publisher, group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as "authors"', FALSE)
+		$this->db->select('count(distinct e.eprintid) as total, publication, type, e.publisher, group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as "authors"', FALSE)
 						->from('eprint e')
 						->join('eprint_divisions d', 'e.eprintid = d.eprintid')
 						->join('subject_ancestors a', 'd.divisions = a.subjectid')
@@ -178,19 +181,24 @@ class eprintsreporting_model extends CI_Model {
 						->where('e.eprint_status', "archive")
 						->where('publication is not null')
 						->where('a.pos', '1')
-						->where('e.date_year >', $startdate)
-						->where('t.subjectid', $school)
-						->where('i.creators_id is not null')
+						->where('e.date_year >', $startdate);
+						if (!empty($school)) {			
+							$this->db->where('t.subjectid', $school);
+						}
+						$this->db->where('i.creators_id is not null')
 						->where('type', 'article')
 						->group_by('upper(publication)')
 						->order_by('count(distinct e.eprintid) desc')
-						->limit('20')
-						->get()
-                        ->result();
+						->limit('20');
+
+		return $this->db->get()->result();
+		//return $this->db->result();
+		//return $query;
 	
 	}
 	
 	
+	/////////////////////////////////////////////////
 	public function get_recentoaitems()
 	{
 		$query = $this->db->query('select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, 
@@ -213,6 +221,7 @@ class eprintsreporting_model extends CI_Model {
 		');
 		return $query->result_array();
 	}
+	
 	
 	public function get_recentfunderitems()
 	{

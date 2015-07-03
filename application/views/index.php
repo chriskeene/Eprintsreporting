@@ -31,6 +31,8 @@
 <li><a href="school">Schools statistics</a></li>
 <li><a href="getrecentoa">Records with OA metadata</a></li>
 <li><a href="getrecentfunder">Records with funder metadata</a></li>
+<li>Journals with the most items in SRO 
+	[<a href="gettopjournals/1">This year</a>] [<a href="gettopjournals/3">last 3 years</a>] [<a href="gettopjournals/5">last 5 years</a>] [<a href="gettopjournals/10">last 10 years</a>]</li>
 </ul>
 <h3>Data issue reports</h3>
 <ul>
