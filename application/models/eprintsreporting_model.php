@@ -189,7 +189,7 @@ class eprintsreporting_model extends CI_Model {
 						->where('type', 'article')
 						->group_by('upper(publication)')
 						->order_by('count(distinct e.eprintid) desc')
-						->limit('20');
+						->limit('30');
 
 		return $this->db->get()->result();
 		//return $this->db->result();
@@ -197,6 +197,20 @@ class eprintsreporting_model extends CI_Model {
 	
 	}
 	
+	
+	//////////////////////////////////////////////////
+	// for a given journal and number of years, return all items
+	public function get_topjournalitems($journalname,$years)
+	{
+		$startdate = date("Y") - $years;
+		$this->db->select('e.eprintid, e.type, concat_ws("/",e.date_day, e.date_month, e.date_year) as "published", concat(datestamp_day, "/", datestamp_month, "/", datestamp_year) as "livedate", e.title, e.ispublished, e.eprint_status, e.id_number as "DOI",e.issn, e.isbn, e.pagerange, e.pages, e.publication, e.publisher', FALSE)
+			->from('eprint e')
+			->where('e.eprint_status', "archive")
+			->where('e.date_year >', $startdate)
+			->where('e.publication', $journalname)
+			->limit('20');
+			return $this->db->get()->result();
+	}
 	
 	/////////////////////////////////////////////////
 	public function get_recentoaitems()

@@ -15,7 +15,7 @@
 <?php foreach ($topjournals as $journal): ?>
 	<tr>
 	
-	<td><?php echo $journal->total ?></td>
+	<td><a href="getitemsforjournal/Nature/5"><?php echo $journal->total ?></a></td>
 	<td><?php echo $journal->publication ?></td>
 	<td><?php echo $journal->publisher ?></td>
 	<td><?php echo $journal->authors ?></td>

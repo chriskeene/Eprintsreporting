@@ -265,5 +265,22 @@ class eprintsreporting extends CI_Controller {
 	}
 	
 	
+	///////////////////////////////////////////////////
+	// for a journal listed in the top journals list, display the items that were counted for that journal
+	// (for the time period given)
+	public function getitemsforjournal($journalname, $yearsback="5")
+	{
+		$data['items'] = $this->eprintsreporting_model->get_topjournalitems($journalname,$yearsback);
+		$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
+		$data['topjournalstext'] = 'The journals most frequently published since ' . 
+		$realstartyear . ' including articles yet to be published.';
+	
+		$data['title'] = $this->config->item('eprints_name'). ' Items published in ' . $journalname . ' since ' . $realstartyear;
+		$this->load->view('templates/header', $data);
+		$this->load->view('itemlist', $data);
+		$this->load->view('templates/footer');
+	}
+	
+	
 	
 }
