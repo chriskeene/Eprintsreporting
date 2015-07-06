@@ -13,26 +13,43 @@ You can use it as you wish, just don't blame me or expect support.
 Install
 =======
 - Download from github
-- rename SAMPLEdatabase.php in application/config - enter your database credentials
-- in application/config/config.php set your repository name and url at the top of the file.
-- replace the current (Sussex) template files in application/views/templates with your own
+- Rename SAMPLEdatabase.php in application/config - enter your database credentials
+- In application/config/config.php set your repository name and url at the top of the file.
+- Replace the current (Sussex) template files in application/views/templates with your own
 
 If you run in to problems, try downloading and extracting CodeIgnitor from the official site, and then copying the application folder from here over the top of the default one. Then set-up your Database connection etc.
 
 Requirements
 ============
-A Web server (duh) running PHP which has access to your Eprints database (just requires read access, i.e. SELECT).. 
+A Web server running PHP (5.1.6 and above) which has read (SELECT) SQL access to your Eprints database.
+
+Adding and changing the reports
+===============================
+
+Refer to the CodeIgniter v2 documentation. 
+http://www.codeigniter.com/userguide2/toc.html
+
+The main files are in the application directory. The only file you may need to edit outside of this is .htaccess. Anyone familar with the MVC model for web applications will be familar with the layout
+
+* controllers/eprintsreporting.php - Essentially the pages and urls
+* models/eprintsreporting_model.php - functions to return data from the database 
+* views/ - snippets of htmls for displaying a page or part of a page
+* views/templates - guess.
+* libraries/Ergeneral.php - a file with a few common functions.
+* config/ - config files.
+
+For an example, see the 'gettopjournals' in the controller, which is the page which displays the journals most published in, either for the whole repository or a given School. This uses the get_topjournals function in the model file, and uses the 'topjournal.php' view html for displaying the list.
 
 Notes
 =====
 Some reports use custom fields on our IR and so will fail unless you by chance have set up fields of the same name.
 
-This applies in particular to the University Structure. We have Schools and within them Departments. Items are added to Eprints at the Department level, but reported on at the School level, hence the SQL will select an item and look at the parent (school) or the division it is associated with (department). It should be a failry quick job to go through the Model file and update any queries based on Schools and adapt them for your local needs. note in the where clause "subject_ancestors.pos=1" which selects the ancestor 1 up in the tree, ie the School. We also have some locally created funder fields and OA status fields.
+This applies in particular to the University Structure. We have Schools and within them Departments. Items are added to Eprints at the Department level, but reported on at the School level, hence the SQL will select an item and look at the parent (school) or the division it is associated with (department). It should be a fairly quick job to go through the Model file and update any queries based on Schools and adapt them for your local needs. note in the where clause "subject_ancestors.pos=1" which selects the ancestor 1 up in the tree, ie the School. We also have some locally created funder fields and OA status fields.
 
-Some Mysql specific queries are used. Should work with other DB backends with a little tweaking in the Model file.
+Some Mysql specific queries are used. Should work with other DB back-ends with a little tweaking in the Model file.
 
 
-This code is all basic stuff. Most developers could knock something up that does the same, and more, only with better code, very quickly. It's designed for back-office working, and to be limited to just those who support the repository. If you are making it available on a public web server you may wish to do a security review first.
+This code is all basic stuff. Most developers could knock something up that does the same, and more, only with better code, quite quickly. It's designed for back-office working, and to be limited to just those who support the repository. If you are making it available on a public web server you may wish to do a security review first.
 
 Our repository is called SRO, I've tried to avoid any references to SRO, though some may still remain in the code.
 
