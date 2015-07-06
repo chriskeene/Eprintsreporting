@@ -19,6 +19,9 @@ class eprintsreporting_model extends CI_Model {
                         ->result();
 	}
 	
+	
+	///////////////////////////////
+	// returns a list of item types, and for each the number of OA records.
 	public function get_oatotal_bytype()
 	{
 		return $this->db->select('count(distinct e.eprintid) as total, e.type')
@@ -527,6 +530,29 @@ class eprintsreporting_model extends CI_Model {
 					->limit(1)
 					->get()
                     ->result();				
+	}
+	
+	public function get_recentoa ($school="") {
+		return $this->db->select('e.eprintid, d.formatdesc, d.security, d.license, d.main, concat_ws("/",d.date_embargo_day, d.date_embargo_month, d.date_embargo_year) as embargodate, concat(e.lastmod_day, "/", e.lastmod_month, "/", e.lastmod_year) as "moddate", concat(e.datestamp_day,"/",e.datestamp_month,"/",e.datestamp_year) AS livedate, 
+		e.title, e.type, e.date_year as "Yearpublished", e.publication as "journaltitle", e.id_number, e.publisher,
+		group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
+		e.issn, concat_ws("/",e.date_month, e.date_year) as "datepublished"', FALSE)
+				->from('document d')
+				->join('eprint e' , 'e.eprintid = d.eprintid')
+				->join('eprint_creators_id i' , 'e.eprintid = i.eprintid')
+				->join('eprint_creators_name n' , 'n.eprintid = i.eprintid AND n.pos = i.pos')
+				->where('e.eprint_status', "archive")
+				->where('e.date_year', '2015')
+				->where("(format like 'application%'
+					OR format like 'text/html'
+					OR format like 'audio%'
+					OR format like 'video%')")
+				->group_by('e.eprintid')
+				->order_by('e.date_year DESC, e.date_month DESC, e.date_day DESC')
+				->get()
+                  ->result();
+	
+	
 	}
 	
 }
