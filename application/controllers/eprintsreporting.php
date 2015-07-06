@@ -34,10 +34,12 @@ class eprintsreporting extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 	
-	public function getrecentoa()
+	//////////////////////////////////////////////
+	// Show recent items where the OA fields have been used.
+	public function getrecentoafield()
 	{
-		$data['items'] = $this->eprintsreporting_model->get_recentoaitems();
-		$data['title'] = $this->config->item('eprints_name'). ' recent oa items';
+		$data['items'] = $this->eprintsreporting_model->get_recentoafielditems();
+		$data['title'] = $this->config->item('eprints_name'). ' Recent items with OA fields used';
 		$this->load->view('templates/header', $data);
 		$this->load->view('recentoaitems', $data);
 		$this->load->view('templates/footer');
@@ -52,7 +54,7 @@ class eprintsreporting extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function view($slug)
+	public function xxview($slug)
 	{
 		$eprintid = '10000';
 		$data['items'] = $this->eprintsreporting_model->get_recentoaitems();
@@ -138,6 +140,8 @@ class eprintsreporting extends CI_Controller {
 
 	}	
 		
+	////////////////////////////////////////////////	
+	// show a list of OA, filtered by a specified field. eg 'type' 'article'
 	public function listoa($field, $value)
 	{
 		$data['oaitems'] = $this->eprintsreporting_model->get_oalist($field, $value);
@@ -147,6 +151,8 @@ class eprintsreporting extends CI_Controller {
 		$this->load->view('oalist', $data);
 		$this->load->view('templates/footer');
 	}
+	
+	
 	
 	public function school($school="")
 	{
@@ -250,8 +256,16 @@ class eprintsreporting extends CI_Controller {
 		// Yet 2015 - 1 - 2014, so would show current year and previous year.
 		// adding one fixes this.
 		$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
-		$data['topjournalstext'] = 'The journals most frequently published since ' . 
-		$realstartyear . ' including articles yet to be published.';
+		
+		if ($school) {
+			$schoolnames = $this->eprintsreporting_model->get_schoolnames();
+			$data['topjournalstext'] = 'The journals most frequently published in by the' . 
+			$schoolnames[$school] . ' since ' . $realstartyear . '. Including articles yet to be published.';
+		}
+		else {
+			$data['topjournalstext'] = 'The journals most frequently published in since ' . 
+				$realstartyear . ', including articles yet to be published.';
+		}
 		
 		// for the link to the list of actual items
 		$data['yearsback'] = $yearsback;
@@ -282,5 +296,18 @@ class eprintsreporting extends CI_Controller {
 	}
 	
 	
+	///////////////////////////////////////////////
+	// 
+	public function getrecentoa($school="")
+	{
+		$data['items'] = $this->eprintsreporting_model->get_recentoa($school);
+
+		
+	
+		$data['title'] = $this->config->item('eprints_name'). ' Recently added items that will be OA';
+		$this->load->view('templates/header', $data);
+		$this->load->view('oaitemlist', $data);
+		$this->load->view('templates/footer');
+	}
 	
 }

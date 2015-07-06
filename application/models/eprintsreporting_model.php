@@ -32,7 +32,9 @@ class eprintsreporting_model extends CI_Model {
                         ->result();
 	}
 	
-	// very simple 
+	
+	///////////////////////////////////////////
+	// returns number of items added for each month in the current calendar year
 	public function get_newrecords_bymonth()
 	{
 		$currentyear = date("Y");
@@ -45,6 +47,10 @@ class eprintsreporting_model extends CI_Model {
                         ->result();
 	}
 	
+	
+	
+	//////////////////////////////////////////////
+	// get a list of recent OA items. requires a field and value to filter by.
 	public function get_oalist($field, $value)
 	{
 		return $this->db->select('e.eprintid, concat(datestamp_year, "/", datestamp_month, "/", datestamp_day) as datelive, e.title, e.type, e.date_year', FALSE)
@@ -60,7 +66,9 @@ class eprintsreporting_model extends CI_Model {
                     ->result();
 	}
 	
-	// this shows data for ALL schools
+	
+	// for all schools, return number of records added each month, and number of OA items for each month
+	// for a given year.
 	public function get_schools_year()
 	{
 		// we're returning more than one query, so chuck it all in an array
@@ -83,7 +91,6 @@ class eprintsreporting_model extends CI_Model {
 			$schoolsarray["$row->schoolid"]["schooltotalrecords"] = "$row->total";
 		}
 		
-		/////////////
 		// now add oa totals to each school
 		$query = $this->db->select('count(distinct e.eprintid) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
 					->from('document f')
@@ -106,7 +113,7 @@ class eprintsreporting_model extends CI_Model {
 					
 	}
 	
-	////////////////
+	///////////////////////////////////////////////
 	// show data for just one school - as specified.
 	public function get_school_summary($school)
 	{
@@ -148,8 +155,9 @@ class eprintsreporting_model extends CI_Model {
 		return $schoolarray;
 	}
 	
-	///////////////////////
-	//get a list of schools 
+	////////////////////////////
+	//return a list of schools, used by Schools summary.
+	// note similar function further down.
 	public function get_schoollist()
 	{
 		return $this->db->select('t.subjectid as "schoolid", t.name_name as "schoolname"')
@@ -192,7 +200,7 @@ class eprintsreporting_model extends CI_Model {
 						->where('type', 'article')
 						->group_by('upper(publication)')
 						->order_by('count(distinct e.eprintid) desc')
-						->limit('30');
+						->limit('40');
 
 		return $this->db->get()->result();
 		//return $this->db->result();
@@ -224,7 +232,8 @@ class eprintsreporting_model extends CI_Model {
 	}
 	
 	/////////////////////////////////////////////////
-	public function get_recentoaitems()
+	// Returns items which have the OA fields used. (not all OA items)
+	public function get_recentoafielditems()
 	{
 		$query = $this->db->query('select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, 
 		date_year, e.oa_status, e.oa_embargo_length, e.oa_licence_type, 
@@ -247,7 +256,8 @@ class eprintsreporting_model extends CI_Model {
 		return $query->result_array();
 	}
 	
-	
+	////////////////////////////////////////////////
+	// Return records with the funder fields used, order by most recent first
 	public function get_recentfunderitems()
 	{
 		$query = $this->db->query('select e.eprintid, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS 	livedate, 
@@ -278,8 +288,8 @@ class eprintsreporting_model extends CI_Model {
 		return $query->result_array();
 	}
 	
-	
-	public function get_items()
+	// is this used?
+	public function xxget_items()
 	{
 		$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished
 			from eprint e
@@ -291,6 +301,9 @@ class eprintsreporting_model extends CI_Model {
 		return $query->row_array();
 	}
 	
+	
+	/////////////////////////////////////////
+	// return items with no journal title set
 	public function get_nojournaltitle()
 	{
 			$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished, e.issn
@@ -328,8 +341,6 @@ class eprintsreporting_model extends CI_Model {
 		
 		
 	}
-	
-	
 	
 	
 	// get total number of new records per month for one given academic year
@@ -486,7 +497,10 @@ class eprintsreporting_model extends CI_Model {
 			return $query->result_array();
 	}
 	
-	// get list schoolnames
+	
+	// Returns a list of School names and their ids.
+	// used by interdisciplinary report, top journals.
+	// note similar function further up.
 	public function get_schoolnames()
 	{
 		$query = $this->db->select('subjectid as schoolid, name_name as schoolname')
