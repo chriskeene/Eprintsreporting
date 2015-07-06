@@ -176,19 +176,12 @@ class eprintsreporting extends CI_Controller {
 			// and year before that
 			$threeyearsago = $previousyear - 1;
 			$data['threeyearsagooa'] = $this->eprintsreporting_model->get_year_monthly_oa($threeyearsago, $school);
-			//**********************************************
-			// top journals
-			$yearsback = "5";
-			$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
-			$data['topjournals'] = $this->eprintsreporting_model->get_topjournals($yearsback, $school);
-			$data['topjournalstext'] = 'The journals most frequently published since ' . 
-			$realstartyear . ' including articles yet to be published.';
+
 			// Views
 			$this->load->view('templates/header', $data);
 			$this->load->view('schoolsummary', $data);
 			$this->load->view('records_per_month', $data);
 			$this->load->view('open_access_items_added_by_month', $data);
-			$this->load->view('topjournals', $data);
 			$this->load->view('templates/footer');
 		}
 		else {
@@ -250,9 +243,12 @@ class eprintsreporting extends CI_Controller {
 	
 	}
 	
-	public function gettopjournals($yearsback="5")
+	public function gettopjournals($yearsback="5", $school="")
 	{
-		$data['topjournals'] = $this->eprintsreporting_model->get_topjournals($yearsback);
+		$data['topjournals'] = $this->eprintsreporting_model->get_topjournals($yearsback,$school);
+		// Add one to years back. ie people expect 'last 1 year' to be this year. 
+		// Yet 2015 - 1 - 2014, so would show current year and previous year.
+		// adding one fixes this.
 		$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
 		$data['topjournalstext'] = 'The journals most frequently published since ' . 
 		$realstartyear . ' including articles yet to be published.';
@@ -270,10 +266,10 @@ class eprintsreporting extends CI_Controller {
 	///////////////////////////////////////////////////
 	// for a journal listed in the top journals list, display the items that were counted for that journal
 	// (for the time period given)
-	public function getitemsforjournal($journalname, $yearsback="5")
+	public function getitemsforjournal($journalname, $yearsback="5", $school="")
 	{
 		$journalname = urldecode($journalname);
-		$data['items'] = $this->eprintsreporting_model->get_topjournalitems($journalname,$yearsback);
+		$data['items'] = $this->eprintsreporting_model->get_topjournalitems($journalname,$yearsback,$school);
 		$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
 		
 	

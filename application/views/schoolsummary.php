@@ -19,9 +19,15 @@
 </tr>
 </tbody>
 </table>
+
+<ul>
+<li>
+<?php $url=site_url('eprintsreporting/gettopjournals/5/' . $schooltotals['schoolid']); ?>
+<a href="<?php echo $url; ?>">Journals most published in by <?php echo $schooltotals['schoolname'] ?> in last 5 years </a>.</li>
+
 <?php $url=site_url('eprintsreporting/interdisciplinary/' . $schooltotals['schoolid']); ?>
-<p><a href="<?php echo $url; ?>">List of interdisciplinary research</a>.</p>
+<li><a href="<?php echo $url; ?>">List of interdisciplinary research</a>.</li>
 
-
+</ul>
 
 

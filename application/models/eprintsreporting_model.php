@@ -200,15 +200,22 @@ class eprintsreporting_model extends CI_Model {
 	
 	//////////////////////////////////////////////////
 	// for a given journal and number of years, return all items
-	public function get_topjournalitems($journalname,$years)
+	public function get_topjournalitems($journalname,$years,$school)
 	{
 		$startdate = date("Y") - $years;
 		$this->db->select('e.eprintid, e.type, concat_ws("/",e.date_day, e.date_month, e.date_year) as "published", concat(datestamp_day, "/", datestamp_month, "/", datestamp_year) as "livedate", e.title, e.ispublished, e.eprint_status, e.id_number as "DOI",e.issn, e.isbn, e.pagerange, e.pages, e.publication, e.publisher', FALSE)
 			->from('eprint e')
+			->join('eprint_divisions d', 'e.eprintid = d.eprintid')
+			->join('subject_ancestors a', 'd.divisions = a.subjectid')
+			->join('subject_name_name t', 'a.ancestors = t.subjectid')
 			->where('e.eprint_status', "archive")
+			->where('a.pos', '1')
 			->where('e.date_year >', $startdate)
-			->where('e.publication', $journalname)
-			->order_by('e.eprintid')
+			->where('e.publication', $journalname);
+			if (!empty($school)) {			
+				$this->db->where('t.subjectid', $school);
+			}
+			$this->db->order_by('e.eprintid')
 			->limit('20');
 			return $this->db->get()->result();
 	}
