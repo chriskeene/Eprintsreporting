@@ -15,7 +15,7 @@
 <tbody>
 <?php foreach ($topjournals as $journal): ?>
 	<tr>
-	<?php $url=site_url('eprintsreporting/getitemsforjournal/' . urlencode($journal->publication) . '/5'); ?>
+	<?php $url=site_url('eprintsreporting/getitemsforjournal/' . urlencode($journal->publication) . '/' . $yearsback); ?>
 	<td><a href="<?php echo $url; ?>"><?php echo $journal->total ?></a></td>
 	<td><?php echo $journal->publication ?></td>
 	<td><?php echo $journal->publisher ?></td>

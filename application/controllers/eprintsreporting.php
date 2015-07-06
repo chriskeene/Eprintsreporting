@@ -253,9 +253,11 @@ class eprintsreporting extends CI_Controller {
 		$data['topjournalstext'] = 'The journals most frequently published since ' . 
 		$realstartyear . ' including articles yet to be published.';
 		
-		
+		// for the link to the list of actual items
+		$data['yearsback'] = $yearsback;
 	
 		$data['title'] = $this->config->item('eprints_name'). ' Journals most published in';
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('topjournals', $data);
 		$this->load->view('templates/footer');

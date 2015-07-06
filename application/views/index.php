@@ -1,3 +1,5 @@
+<?php $this->load->helper('url'); ?>
+
 <div class="feature palette4 swatch6 right half" style="float:right">
 <h4 class="palette3 swatch6">Summary</h4>
 
@@ -27,18 +29,14 @@
 
 <h3>Reports</h3>
 <ul>
-<li><a href="summary">Summary</a></li>
-<li><a href="school">Schools statistics</a></li>
-<li><a href="getrecentoa">Records with OA metadata</a></li>
-<li><a href="getrecentfunder">Records with funder metadata</a></li>
+<li><a href="<?php echo site_url('eprintsreporting/summary/'); ?>">Summary</a></li>
+<li><a href="<?php echo site_url('eprintsreporting/school/'); ?>">Schools statistics</a></li>
+<li><a href="<?php echo site_url('eprintsreporting/getrecentoa/'); ?>">Records with OA metadata</a></li>
+<li><a href="<?php echo site_url('eprintsreporting/getrecentfunder/'); ?>">Records with funder metadata</a></li>
 <li>Journals with the most items in SRO 
 	[<a href="gettopjournals/1">This year</a>] [<a href="gettopjournals/3">last 3 years</a>] [<a href="gettopjournals/5">last 5 years</a>] [<a href="gettopjournals/10">last 10 years</a>]</li>
 </ul>
-<h3>Data issue reports</h3>
-<ul>
-<li><a href="admin">See Admin menu page</a></li>
 
-</ul>
 
 
 

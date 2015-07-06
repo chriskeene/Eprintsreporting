@@ -83,6 +83,7 @@ class eprintsreporting_model extends CI_Model {
 			$schoolsarray["$row->schoolid"]["schooltotalrecords"] = "$row->total";
 		}
 		
+		/////////////
 		// now add oa totals to each school
 		$query = $this->db->select('count(distinct e.eprintid) as "total", t.name_name as "school", t.subjectid as "schoolid"', FALSE)
 					->from('document f')
@@ -105,6 +106,7 @@ class eprintsreporting_model extends CI_Model {
 					
 	}
 	
+	////////////////
 	// show data for just one school - as specified.
 	public function get_school_summary($school)
 	{
@@ -146,6 +148,7 @@ class eprintsreporting_model extends CI_Model {
 		return $schoolarray;
 	}
 	
+	///////////////////////
 	//get a list of schools 
 	public function get_schoollist()
 	{
@@ -215,8 +218,8 @@ class eprintsreporting_model extends CI_Model {
 			if (!empty($school)) {			
 				$this->db->where('t.subjectid', $school);
 			}
-			$this->db->order_by('e.eprintid')
-			->limit('20');
+			$this->db->order_by('e.date_year DESC, e.date_month DESC, e.date_day DESC, e.eprintid DESC');
+
 			return $this->db->get()->result();
 	}
 	
