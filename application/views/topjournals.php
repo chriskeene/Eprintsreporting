@@ -1,3 +1,4 @@
+<?php $this->load->helper('url'); ?>
 <h2>Journals most published in</h2>
 <p><?php echo $topjournalstext; ?></p>
 
@@ -14,8 +15,8 @@
 <tbody>
 <?php foreach ($topjournals as $journal): ?>
 	<tr>
-	
-	<td><a href="getitemsforjournal/Nature/5"><?php echo $journal->total ?></a></td>
+	<?php $url=site_url('getitemsforjournal/' . urlencode($journal->publication) . '/5'); ?>
+	<td><a href="<?php echo $url; ?>"><?php echo $journal->total ?></a></td>
 	<td><?php echo $journal->publication ?></td>
 	<td><?php echo $journal->publisher ?></td>
 	<td><?php echo $journal->authors ?></td>

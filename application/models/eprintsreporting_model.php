@@ -208,6 +208,7 @@ class eprintsreporting_model extends CI_Model {
 			->where('e.eprint_status', "archive")
 			->where('e.date_year >', $startdate)
 			->where('e.publication', $journalname)
+			->order_by('e.eprintid')
 			->limit('20');
 			return $this->db->get()->result();
 	}

@@ -256,6 +256,8 @@ class eprintsreporting extends CI_Controller {
 		$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
 		$data['topjournalstext'] = 'The journals most frequently published since ' . 
 		$realstartyear . ' including articles yet to be published.';
+		
+		
 	
 		$data['title'] = $this->config->item('eprints_name'). ' Journals most published in';
 		$this->load->view('templates/header', $data);
@@ -270,10 +272,10 @@ class eprintsreporting extends CI_Controller {
 	// (for the time period given)
 	public function getitemsforjournal($journalname, $yearsback="5")
 	{
+		$journalname = urldecode($journalname);
 		$data['items'] = $this->eprintsreporting_model->get_topjournalitems($journalname,$yearsback);
 		$realstartyear = date("Y") - $yearsback + 1; // because we don't include the year that's actually given
-		$data['topjournalstext'] = 'The journals most frequently published since ' . 
-		$realstartyear . ' including articles yet to be published.';
+		
 	
 		$data['title'] = $this->config->item('eprints_name'). ' Items published in ' . $journalname . ' since ' . $realstartyear;
 		$this->load->view('templates/header', $data);
