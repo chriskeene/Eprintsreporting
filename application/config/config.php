@@ -25,7 +25,10 @@ $config['eprints_edit_record_url'] = "https://sro.sussex.ac.uk/cgi/users/home?sc
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://www.sussex.ac.uk/library/reports/sro/eprintsreporting/';
+// For sussex, leavig it blank, and letting CI guess works better as easier to copy all files
+// from dev to live without having to update this setting.
+//$config['base_url']	= 'http://www.sussex.ac.uk/library/reports/sro/eprintsreporting/';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------

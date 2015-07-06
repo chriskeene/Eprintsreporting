@@ -1,3 +1,4 @@
+<?php $this->load->helper('url'); ?>
 <?php
 		// load a library for eprintsreporting common functions
 		$this->load->library('ergeneral');
@@ -21,7 +22,8 @@
 <?php foreach ($schooltotals as $schooltotal): ?>
 	<?php //if (empty($oatotal->type)) { $oatotal->type = "total"; } ?>
 	<tr>
-	<td><?php echo '<a href="school/' . $schooltotal['schoolid'] . '">' .
+	<?php $url=site_url('eprintsreporting/school/' . $schooltotal['schoolid']); ?>
+	<td><?php echo '<a href="' . $url . '">' .
 	$schooltotal['schoolname'] . '</a>' ?></td>
 	<td><?php echo number_format($schooltotal['schooltotalrecords']) ?></td>
 	<td><?php echo $schooltotal['schooloatotal'] ?></td>

@@ -39,7 +39,7 @@
 */
 
 
-//$route['default_controller'] = 'eprintsreporting';
+$route['default_controller'] = 'eprintsreporting';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

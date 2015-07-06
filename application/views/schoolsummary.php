@@ -1,4 +1,4 @@
-
+<?php $this->load->helper('url'); ?>
 <?php $monthlist = array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); ?>
 
 <table class="style1 stripe">
@@ -19,8 +19,8 @@
 </tr>
 </tbody>
 </table>
-
-<p><a href="../interdisciplinary/<?php echo $schooltotals['schoolid']; ?>">List of interdisciplinary research</a>.</p>
+<?php $url=site_url('eprintsreporting/interdisciplinary/' . $schooltotals['schoolid']); ?>
+<p><a href="<?php echo $url; ?>">List of interdisciplinary research</a>.</p>
 
 
 
