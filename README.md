@@ -33,7 +33,7 @@ The main files are in the application directory. The only file you may need to e
 
 * controllers/eprintsreporting.php - Essentially the pages and urls
 * models/eprintsreporting_model.php - functions to return data from the database 
-* views/ - snippets of htmls for displaying a page or part of a page
+* views/ - snippets of html for displaying a page or part of a page
 * views/templates - guess.
 * libraries/Ergeneral.php - a file with a few common functions.
 * config/ - config files.
@@ -79,4 +79,4 @@ THE SOFTWARE.
 
 
 
-* Chris Writes Bad PHP
+(* Chris Writes Bad PHP)
