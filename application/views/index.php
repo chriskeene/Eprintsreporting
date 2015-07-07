@@ -31,10 +31,13 @@
 <ul>
 <li><a href="<?php echo site_url('eprintsreporting/summary/'); ?>">Summary</a></li>
 <li><a href="<?php echo site_url('eprintsreporting/school/'); ?>">Schools statistics</a></li>
-<li><a href="<?php echo site_url('eprintsreporting/getrecentoa/'); ?>">Records with OA metadata</a></li>
-<li><a href="<?php echo site_url('eprintsreporting/getrecentfunder/'); ?>">Records with funder metadata</a></li>
+<li><a href="<?php echo site_url('eprintsreporting/recentoa/'); ?>">Recent OA items (open or under embargo)</a></li>
 <li>Journals with the most items in SRO 
 	[<a href="gettopjournals/1">This year</a>] [<a href="gettopjournals/3">last 3 years</a>] [<a href="gettopjournals/5">last 5 years</a>] [<a href="gettopjournals/10">last 10 years</a>]</li>
+
+<li><a href="<?php echo site_url('eprintsreporting/getrecentoafields/'); ?>">Records with OA metadata</a></li>
+<li><a href="<?php echo site_url('eprintsreporting/getrecentfunder/'); ?>">Records with funder metadata</a></li>
+
 </ul>
 
 

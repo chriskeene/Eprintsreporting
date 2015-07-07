@@ -1,3 +1,4 @@
+<?php echo $this->pagination->create_links(); ?>
 <table class="style1 stripe" border="1">
 <thead>
 	<tr>
@@ -27,8 +28,10 @@
 				$doi = '(doi: <a href="http://dx.doi.org/' . $sro_item->id_number . '">' . $sro_item->id_number . '</a>)';
 			}
 	?>
+	<?php $filename = mb_strimwidth($sro_item->main, 0, 30, "..."); ?>
 	<tr>
-		<td><a href="<?php echo $this->config->item('eprints_edit_record_url') . $sro_item->eprintid ?>" target="_blank"><?php echo $sro_item->eprintid ?></a><br />
+		<td>
+		<a href="<?php echo $this->config->item('eprints_record_url') . $sro_item->eprintid ?>"><?php echo $sro_item->eprintid ?></a> (<a href="<?php echo $this->config->item('eprints_edit_record_url') . $sro_item->eprintid ?>" target="_blank">edit</a>)<br />
 		<?php echo $sro_item->type; ?></td>
 		<td><?php echo $sro_item->title ?> 
 		
@@ -44,7 +47,7 @@
 		<td><?php echo $sro_item->livedate ?> </td>
 		<td><?php echo $sro_item->datepublished ?> </td>
 		<td><?php echo $sro_item->embargodate ?> </td>
-		<td><?php echo $sro_item->main ?> 
+		<td><?php echo $filename ?> 
 		<br />Security: <?php echo $sro_item->security ?>
 		<br /><?php echo $sro_item->license ?>
 		</td>
@@ -62,3 +65,4 @@
 <?php endforeach ?>
 </tbody>
 </table>
+<?php echo $this->pagination->create_links(); ?>

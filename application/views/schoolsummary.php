@@ -28,6 +28,9 @@
 <?php $url=site_url('eprintsreporting/interdisciplinary/' . $schooltotals['schoolid']); ?>
 <li><a href="<?php echo $url; ?>">List of interdisciplinary research</a>.</li>
 
+<?php $url=site_url('eprintsreporting/recentoa/' . $schooltotals['schoolid']); ?>
+<li><a href="<?php echo $url; ?>">Recent Open Access items (including those under embargo)</a>.</li>
+
 </ul>
 
 

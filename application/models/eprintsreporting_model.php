@@ -291,18 +291,6 @@ class eprintsreporting_model extends CI_Model {
 		return $query->result_array();
 	}
 	
-	// is this used?
-	public function xxget_items()
-	{
-		$query = $this->db->query('Select eprintid, title, concat(e.datestamp_year,"/",e.datestamp_month,"/",e.datestamp_day) AS livedate, date_year, publication, id_number, ispublished
-			from eprint e
-			where e.eprintid = "10000"
-			AND eprint_status = "archive"
-			AND type = "article"
-			ORDER BY e.datestamp_year desc, e.datestamp_month
-			');
-		return $query->row_array();
-	}
 	
 	
 	/////////////////////////////////////////
@@ -532,8 +520,16 @@ class eprintsreporting_model extends CI_Model {
                     ->result();				
 	}
 	
-	public function get_recentoa ($school="") {
-		return $this->db->select('e.eprintid, d.formatdesc, d.security, d.license, d.main, concat_ws("/",d.date_embargo_day, d.date_embargo_month, d.date_embargo_year) as embargodate, concat(e.lastmod_day, "/", e.lastmod_month, "/", e.lastmod_year) as "moddate", concat(e.datestamp_day,"/",e.datestamp_month,"/",e.datestamp_year) AS livedate, 
+	
+	//////////////////////////////////////////////
+	// Return a list of OA items, either open or with embargo, most recent first.
+	public function get_recentoa ($school="",$offset="0") {
+		// need to put school first as that seems to be how pagination works.
+		// but don't always have a school.
+		if ($school == "none") {
+			$school = "";
+		}
+		$this->db->select('e.eprintid, d.formatdesc, d.security, d.license, d.main, concat_ws("/",d.date_embargo_day, d.date_embargo_month, d.date_embargo_year) as embargodate, concat(e.lastmod_day, "/", e.lastmod_month, "/", e.lastmod_year) as "moddate", concat(e.datestamp_day,"/",e.datestamp_month,"/",e.datestamp_year) AS livedate, 
 		e.title, e.type, e.date_year as "Yearpublished", e.publication as "journaltitle", e.id_number, e.publisher,
 		group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
 		e.issn, concat_ws("/",e.date_month, e.date_year) as "datepublished"', FALSE)
@@ -541,16 +537,24 @@ class eprintsreporting_model extends CI_Model {
 				->join('eprint e' , 'e.eprintid = d.eprintid')
 				->join('eprint_creators_id i' , 'e.eprintid = i.eprintid')
 				->join('eprint_creators_name n' , 'n.eprintid = i.eprintid AND n.pos = i.pos')
+				->join('eprint_divisions dd' , 'e.eprintid = dd.eprintid')
+				->join('subject_ancestors a' , 'dd.divisions = a.subjectid')
+				->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 				->where('e.eprint_status', "archive")
-				->where('e.date_year', '2015')
-				->where("(format like 'application%'
-					OR format like 'text/html'
-					OR format like 'audio%'
-					OR format like 'video%')")
-				->group_by('e.eprintid')
-				->order_by('e.date_year DESC, e.date_month DESC, e.date_day DESC')
-				->get()
-                  ->result();
+				->where('a.pos', '1')
+				->where("(d.format like 'application%'
+					OR d.format like 'text/html'
+					OR d.format like 'audio%'
+					OR d.format like 'video%')")
+				->where("(d.date_embargo_year is not null OR d.security = 'public')");
+				if (!empty($school)) {			
+					$this->db->where('t.subjectid', $school);
+				}
+				$this->db->group_by('e.eprintid')
+				->order_by('e.datestamp_year DESC, e.datestamp_month DESC, e.datestamp_day DESC')
+				->limit(100, $offset);
+
+			return $this->db->get()->result();
 	
 	
 	}
