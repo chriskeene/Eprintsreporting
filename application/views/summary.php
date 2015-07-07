@@ -1,5 +1,3 @@
-<?php //print_r($thisyear); // $tot = $total[0]; echo "one $tot->eprintid"; ?>
-<?php $monthlist = array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); ?>
 <h2>Total records in SRO</h2>
 
 <table class="style1 stripe">

@@ -24,6 +24,24 @@ class ergeneral {
 		return array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); 
 	}
 	
+	// return a list of item type names.
+	public function get_itemtypelist()
+	{
+		return array(
+			"article" => "Article",
+			"book" => "Book",
+			"book_section" => "Book Chapter",
+			"composition" => "Composition",
+			"conference_item" => "Conference item",
+			"edited_book" => "Edited Book",
+			"exhibition" => "Exhibition",
+			"monograph" => "Project Report or paper",
+			"other" => "Other",
+			"patent" => "Patent",
+			"performance" => "Performance",
+			"thesis" => "Thesis",
+			"total" => "Total"); 
+	}
 
 	
 }

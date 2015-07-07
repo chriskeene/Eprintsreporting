@@ -1,5 +1,9 @@
 <?php $this->load->helper('url'); ?>
-<?php $monthlist = array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); ?>
+
+<?php
+		$this->load->library('ergeneral');
+		$monthlist = $this->ergeneral->get_academicmonthlist();
+?>
 
 <table class="style1 stripe">
 <thead>

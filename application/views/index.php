@@ -1,4 +1,11 @@
-<?php $this->load->helper('url'); ?>
+<?php $this->load->helper('url');  ?>
+
+<?php
+		// load a library for eprintsreporting common functions
+		$this->load->library('ergeneral');
+		// list of item types
+		$itemtypelist = $this->ergeneral->get_itemtypelist();
+?>
 
 <div class="feature palette4 swatch6 right half" style="float:right">
 <h4 class="palette3 swatch6">Summary</h4>
@@ -10,7 +17,13 @@
 <ul>
 <?php foreach ($oatotals as $oatotal): ?>
 	<?php if (empty($oatotal->type)) { $oatotal->type = "total"; } ?>
-	<li><?php echo $oatotal->type ?>:  <?php echo number_format($oatotal->total) ?></li>
+	<?php if (isset($itemtypelist[$oatotal->type])) {
+				$type = $itemtypelist[$oatotal->type];
+			} else {
+				$type = $oatotal->type;
+			} ?>
+	
+	<li><?php echo $type ?>:  <?php echo number_format($oatotal->total) ?></li>
 <?php endforeach ?>
 </ul>
 

@@ -1,3 +1,9 @@
+<?php
+		$this->load->library('ergeneral');
+		// list of item types
+		$itemtypelist = $this->ergeneral->get_itemtypelist();
+?>
+
 <table class="style1 stripe" border="1">
 <thead>
 	<tr>
@@ -25,9 +31,17 @@
 				$doi = '(doi: <a href="http://dx.doi.org/' . $sro_item['id_number'] . '">' . $sro_item['id_number'] . '</a>)';
 			}
 	?>
+	<?php  // use nice item type names.
+			if (isset($itemtypelist[$sro_item['type']])) {
+				$type = $itemtypelist[$sro_item['type']];
+			} else {
+				$type = $sro_item['type'];
+			} 
+	?>
+	
 	<tr>
 		<td><a href="<?php echo $this->config->item('eprints_edit_record_url') . $sro_item['eprintid'] ?>" target="_blank"><?php echo $sro_item['eprintid'] ?></a><br />
-		<?php echo $sro_item['type']; ?></td>
+		<?php echo $type; ?></td>
 		<td><?php echo $sro_item['title'] ?> 
 		<?php if (!empty($doi)) { echo $doi; } ?> </td>
 		<td><?php echo $sro_item['authors'] ?> </td>
