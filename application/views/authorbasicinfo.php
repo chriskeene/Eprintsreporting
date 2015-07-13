@@ -4,5 +4,5 @@
  <li>Username: <?php echo $author[0]->username;?></li>
    <li>Email: <?php echo $author[0]->email;?></li>
    <li>Sussex Person id: <?php echo $author[0]->person_id;?></li>
-   <li>Internal SRO id: <?php echo $author[0]->userid; print_r($author);?></li>
+   <li>Internal SRO id: <?php echo $author[0]->userid; ?></li>
 </ul>   

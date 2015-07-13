@@ -195,6 +195,7 @@ class eprintsreporting_model extends CI_Model {
 						->where('e.eprint_status', "archive")
 						->where('publication is not null')
 						->where('a.pos', '1')
+						->where('i.creators_id is not null')
 						->where('e.date_year >', $startdate);
 						if (!empty($school)) {			
 							$this->db->where('t.subjectid', $school);
@@ -217,22 +218,29 @@ class eprintsreporting_model extends CI_Model {
 	public function get_topjournalitems($journalname,$years,$school)
 	{
 		$startdate = date("Y") - $years;
-		$this->db->select('e.eprintid, e.type, concat_ws("/",e.date_day, e.date_month, e.date_year) as "published", concat(datestamp_day, "/", datestamp_month, "/", datestamp_year) as "livedate", e.title, e.ispublished, e.eprint_status, e.id_number as "DOI",e.issn, e.isbn, e.pagerange, e.pages, e.publication, e.publisher', FALSE)
+		$this->db->select('e.eprintid, e.type, concat_ws("/",e.date_day, e.date_month, e.date_year) as "published", concat(datestamp_day, "/", datestamp_month, "/", datestamp_year) as "livedate", e.title, e.ispublished, e.eprint_status, e.id_number as "DOI",e.issn, e.isbn, e.pagerange, e.pages, e.publication, e.publisher,
+		group_concat(DISTINCT t.name_name SEPARATOR ", ")  as "schools",
+		group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors',		FALSE)
 			->from('eprint e')
 			->join('eprint_divisions d', 'e.eprintid = d.eprintid')
 			->join('subject_ancestors a', 'd.divisions = a.subjectid')
 			->join('subject_name_name t', 'a.ancestors = t.subjectid')
+			->join('eprint_creators_id i' , 'e.eprintid = i.eprintid')
+			->join('eprint_creators_name n' , 'n.eprintid = i.eprintid AND n.pos = i.pos')
 			->where('e.eprint_status', "archive")
+			->where('i.creators_id is not null')
 			->where('a.pos', '1')
 			->where('e.date_year >', $startdate)
 			->where('e.publication', $journalname);
 			if (!empty($school)) {			
 				$this->db->where('t.subjectid', $school);
 			}
-			$this->db->order_by('e.date_year DESC, e.date_month DESC, e.date_day DESC, e.eprintid DESC');
+			$this->db->group_by('e.eprintid')
+			->order_by('e.date_year DESC, e.date_month DESC, e.date_day DESC, e.eprintid DESC');
 
 			return $this->db->get()->result();
 	}
+	
 	
 	/////////////////////////////////////////////////
 	// Returns items which have the OA fields used. (not all OA items)
@@ -447,6 +455,7 @@ class eprintsreporting_model extends CI_Model {
 					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 					->where('e.eprint_status', "archive")
 					->where('a.pos', '1')
+					->where('i.creators_id is not null')
 					->where('d.date_embargo_year is not null')
 					->where('curdate() >', 'concat(d.date_embargo_year, d.date_embargo_month, d.date_embargo_day)', FALSE)
 					->group_by('e.eprintid')
@@ -459,7 +468,6 @@ class eprintsreporting_model extends CI_Model {
 	// Show items that involved another school, for a given school, i.e. interdisciplinary research
 	public function get_interdisciplinary($school="s921")
 	{
-
 		$query = $this->db->query('
 			Select e.eprintid, group_concat(DISTINCT t.name_name) As "Schools", e.title, e.`type`, e.date_year as datepublished, 
 			group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
@@ -528,7 +536,8 @@ class eprintsreporting_model extends CI_Model {
 	
 	//////////////////////////////////////////////
 	// Return a list of OA items, either open or with embargo, most recent first.
-	public function get_recentoa ($school="",$offset="0") {
+	public function get_recentoa ($school="",$offset="0") 
+	{
 		// need to put school first as that seems to be how pagination works.
 		// but don't always have a school.
 		if ($school == "none") {
@@ -548,6 +557,7 @@ class eprintsreporting_model extends CI_Model {
 				->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 				->where('e.eprint_status', "archive")
 				->where('a.pos', '1')
+				->where('i.creators_id is not null')
 				->where("(d.format like 'application%'
 					OR d.format like 'text/html'
 					OR d.format like 'audio%'
@@ -565,4 +575,29 @@ class eprintsreporting_model extends CI_Model {
 	
 	}
 	
+	
+	///////////////////////////////////////
+	// getauthoritems
+	//returns a list of items for an author
+	public function get_authoritems ($author) {
+		$this->db->select('e.eprintid, e.type, concat_ws("/",e.date_day, e.date_month, e.date_year) as "published", concat(datestamp_day, "/", datestamp_month, "/", datestamp_year) as "livedate", e.title, e.ispublished, e.eprint_status, e.id_number as "DOI",e.issn, e.isbn, e.pagerange, e.pages, e.publication, e.publisher,
+		group_concat(DISTINCT t.name_name SEPARATOR ", ")  as "schools",
+		group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors
+		', FALSE)
+				->from('eprint e')
+				->join('eprint_creators_id i' , 'e.eprintid = i.eprintid')
+				->join('eprint_creators_name n' , 'n.eprintid = i.eprintid AND n.pos = i.pos')
+				->join('eprint_divisions dd' , 'e.eprintid = dd.eprintid')
+				->join('subject_ancestors a' , 'dd.divisions = a.subjectid')
+				->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+				->where('e.eprint_status', "archive")
+				->where('a.pos', '1')
+				->where('i.creators_id',$author)
+				->group_by('e.eprintid')
+				->order_by('e.datestamp_year DESC, e.datestamp_month DESC, e.datestamp_day DESC');
+
+			return $this->db->get()->result();
+	
+	
+	}
 }

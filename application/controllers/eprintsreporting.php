@@ -242,9 +242,12 @@ class eprintsreporting extends CI_Controller {
 	public function author($author="150000")
 	{
 		$data['author'] = $this->eprintsreporting_model->get_authorinfo($author);
+		$data['items'] = $this->eprintsreporting_model->get_authoritems($author);
+		
 		$data['title'] = $this->config->item('eprints_name'). ' author info';
 		$this->load->view('templates/header', $data);
 		$this->load->view('authorbasicinfo', $data);
+		$this->load->view('itemlist', $data);
 		$this->load->view('templates/footer');
 	
 	}
