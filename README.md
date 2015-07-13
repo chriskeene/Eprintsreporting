@@ -5,19 +5,23 @@ A simple set of pages to list and report on Eprints data. Using PHP and CodeIgni
 
 Author: Chris Keene, University of Sussex. 2014-2015.
 
-Note the code complies with the CWBP coding standard*
-
 It's licensed under the MIT License.  
 You can use it as you wish, just don't blame me or expect support.
 
+Note the code complies with the CWBP coding standard*
+
 Install
 =======
-- Download from github
+- Download from github. 
 - Rename SAMPLEdatabase.php in application/config - enter your database credentials
 - In application/config/config.php set your repository name and url at the top of the file.
 - Replace the current (Sussex) template files in application/views/templates with your own
 
+If you extract the files in to directory 'reports' on the server http://www.example.edu/ then the base url will be:
+http://www.example.edu/report/eprintsreporting/
+
 If you run in to problems, try downloading and extracting CodeIgnitor from the official site, and then copying the application folder from here over the top of the default one. Then set-up your Database connection etc.
+You may need to fiddle with the .htaccess file.
 
 Requirements
 ============
@@ -35,7 +39,7 @@ The main files are in the application directory. The only file you may need to e
 * models/eprintsreporting_model.php - functions to return data from the database 
 * views/ - snippets of html for displaying a page or part of a page
 * views/templates - guess.
-* libraries/Ergeneral.php - a file with a few common functions.
+* libraries/Ergeneral.php - a file with a few common functions, plus some settings such as item type names
 * config/ - config files.
 
 For an example, see the 'gettopjournals' in the controller, which is the page which displays the journals most published in, either for the whole repository or a given School. This uses the get_topjournals function in the model file, and uses the 'topjournal.php' view html for displaying the list.

@@ -436,12 +436,17 @@ class eprintsreporting_model extends CI_Model {
 	{
 		return $this->db->select('e.eprintid, d.formatdesc, d.security, d.license, d.main, concat_ws("/",d.date_embargo_day, d.date_embargo_month, d.date_embargo_year) as embargodate, concat(e.lastmod_day, "/", e.lastmod_month, "/", e.lastmod_year) as "moddate", concat(e.datestamp_day,"/",e.datestamp_month,"/",e.datestamp_year) AS livedate, e.title, e.type, e.date_year as "Yearpublished", e.publication as "journaltitle", e.id_number, e.publisher,
 		group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
-		e.issn, concat_ws("/",e.date_month, e.date_year) as "datepublished"', FALSE)
+		e.issn, concat_ws("/",e.date_month, e.date_year) as "datepublished"
+		group_concat(DISTINCT t.name_name SEPARATOR ", ")  as "schools"', FALSE)
 					->from('document d')
 					->join('eprint e' , 'e.eprintid = d.eprintid')
 					->join('eprint_creators_id i' , 'e.eprintid = i.eprintid')
 					->join('eprint_creators_name n' , 'n.eprintid = i.eprintid AND n.pos = i.pos')
+					->join('eprint_divisions dd' , 'e.eprintid = dd.eprintid')
+					->join('subject_ancestors a' , 'dd.divisions = a.subjectid')
+					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 					->where('e.eprint_status', "archive")
+					->where('a.pos', '1')
 					->where('d.date_embargo_year is not null')
 					->where('curdate() >', 'concat(d.date_embargo_year, d.date_embargo_month, d.date_embargo_day)', FALSE)
 					->group_by('e.eprintid')
@@ -532,7 +537,8 @@ class eprintsreporting_model extends CI_Model {
 		$this->db->select('e.eprintid, d.formatdesc, d.security, d.license, d.main, concat_ws("/",d.date_embargo_day, d.date_embargo_month, d.date_embargo_year) as embargodate, concat(e.lastmod_day, "/", e.lastmod_month, "/", e.lastmod_year) as "moddate", concat(e.datestamp_day,"/",e.datestamp_month,"/",e.datestamp_year) AS livedate, 
 		e.title, e.type, e.date_year as "Yearpublished", e.publication as "journaltitle", e.id_number, e.publisher,
 		group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
-		e.issn, concat_ws("/",e.date_month, e.date_year) as "datepublished"', FALSE)
+		e.issn, concat_ws("/",e.date_month, e.date_year) as "datepublished", 
+		group_concat(DISTINCT t.name_name SEPARATOR ", ")  as "schools"', FALSE)
 				->from('document d')
 				->join('eprint e' , 'e.eprintid = d.eprintid')
 				->join('eprint_creators_id i' , 'e.eprintid = i.eprintid')

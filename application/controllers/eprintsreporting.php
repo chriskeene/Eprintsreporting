@@ -301,14 +301,15 @@ class eprintsreporting extends CI_Controller {
 	public function recentoa($school="none", $offset="0")
 	{
 		$data['items'] = $this->eprintsreporting_model->get_recentoa($school,$offset);
+		$tmp = count ($data['items']);
 
-		$data['title'] = $this->config->item('eprints_name'). ' Recently added items that will be OA';
+		$data['title'] = $this->config->item('eprints_name'). ' Recently added OA items (open or under embargo)';
 		
 		$this->load->helper('url');
 		$this->load->library('pagination');
 
 		$config['base_url'] = site_url('eprintsreporting/recentoa/' . $school .'/');
-		$config['total_rows'] = 10000;
+		$config['total_rows'] = 5000;
 		$config['per_page'] = 100;
 		$config['uri_segment'] = 4;
 
@@ -319,5 +320,11 @@ class eprintsreporting extends CI_Controller {
 		$this->load->view('embargoitems', $data);
 		$this->load->view('templates/footer');
 	}
+	
+	
+	//to do...
+	// authors - above
+	// add top authors per school
+	// page per year
 	
 }

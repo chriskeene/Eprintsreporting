@@ -13,6 +13,7 @@
 		<th>title</th>
 		<th>journal / publisher</th>
 		<th>Sussex authors</th>
+		<th>Schools</th>
 		
 		<th>date added</th>
 		<th>date published</th>
@@ -50,7 +51,7 @@
 		<td><?php echo $sro_item->title ?> 
 		
 		<?php if (!empty($doi)) { echo $doi; } ?> </td>
-		<td><?php echo $sro_item->publisher, ". <br />", $sro_item->journaltitle ?> 
+		<td><?php echo $sro_item->journaltitle, ". <br />", $sro_item->publisher ?> 
 		<?php if (!empty($sro_item->issn)) {
 			echo "<a href='http://www.sherpa.ac.uk/romeo/search.php?issn=" . $sro_item->issn . "'>Romeo</a>";
 		}
@@ -58,6 +59,7 @@
 		
 		</td>
 		<td><?php echo $sro_item->authors ?> </td>
+		<td><?php echo $sro_item->schools ?> </td>
 		<td><?php echo $sro_item->livedate ?> </td>
 		<td><?php echo $sro_item->datepublished ?> </td>
 		<td><?php echo $sro_item->embargodate ?> </td>
