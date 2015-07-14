@@ -325,6 +325,17 @@ class eprintsreporting extends CI_Controller {
 	}
 	
 	
+	/////////////////////////////////////////////
+	// show a list of authors, order by those who have published the most
+	public function topauthors($yearsback="5", $school="")
+	{
+		$data['items'] = $this->eprintsreporting_model->get_topauthors($yearsback, $school);
+		$data['title'] = $this->config->item('eprints_name'). ' Authors with the most items in SRO';
+		$this->load->view('templates/header', $data);
+		$this->load->view('authorlist', $data);
+		$this->load->view('templates/footer');
+	}
+	
 	//to do...
 	// authors - above
 	// add top authors per school

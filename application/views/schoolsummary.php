@@ -35,6 +35,9 @@
 <?php $url=site_url('eprintsreporting/recentoa/' . $schooltotals['schoolid']); ?>
 <li><a href="<?php echo $url; ?>">Recent Open Access items (including those under embargo)</a>.</li>
 
+<?php $url=site_url('eprintsreporting/topauthors/5/' . $schooltotals['schoolid']); ?>
+<li><a href="<?php echo $url; ?>">Authors with most items on SRO</a>.</li>
+
 </ul>
 
 

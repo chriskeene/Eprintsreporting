@@ -579,7 +579,8 @@ class eprintsreporting_model extends CI_Model {
 	///////////////////////////////////////
 	// getauthoritems
 	//returns a list of items for an author
-	public function get_authoritems ($author) {
+	public function get_authoritems ($author) 
+	{
 		$this->db->select('e.eprintid, e.type, concat_ws("/",e.date_day, e.date_month, e.date_year) as "published", concat(datestamp_day, "/", datestamp_month, "/", datestamp_year) as "livedate", e.title, e.ispublished, e.eprint_status, e.id_number as "DOI",e.issn, e.isbn, e.pagerange, e.pages, e.publication, e.publisher,
 		group_concat(DISTINCT t.name_name SEPARATOR ", ")  as "schools",
 		group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors
@@ -597,7 +598,41 @@ class eprintsreporting_model extends CI_Model {
 				->order_by('e.datestamp_year DESC, e.datestamp_month DESC, e.datestamp_day DESC');
 
 			return $this->db->get()->result();
+	}
 	
+	
+	///////////////////////////////////////
+	// get_topauthors
+	//returns a list authors, ordered by those with the most items, limited optionally by School, and years
+	// note, does not include edited books. would require using eprint_editors_id table
+	// also note, due to the way schools are mapped to eprints not people, this will often return many 
+	// schools per person. (also why we use a like clause to select if author is connected to school)
+	public function get_topauthors ($years="5", $school) 
+	{
+		$this->db->select('count(distinct i.eprintid) as total, i.creators_id as personid, 
+		concat(u.name_given, " ", u.name_family) as author, 
+		group_concat(DISTINCT(t.name_name)) as "school", 
+		group_concat(distinct(t.subjectid)) as "schoolid"
+		', FALSE)
+			->from('eprint_creators_id i')
+			->join('user u' , 'u.person_id = i.creators_id')
+			->join('eprint e' , 'e.eprintid = i.eprintid')
+			->join('eprint_divisions dd' , 'e.eprintid = dd.eprintid')
+			->join('subject_ancestors a' , 'dd.divisions = a.subjectid')
+			->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+			->where('i.creators_id is not null')
+			->where('i.creators_id != ""')
+			->where('creators_id < 900000')
+			->where('a.pos', '1')
+			->where('e.eprint_status', "archive");
+			if (!empty($school)) {			
+				$this->db->like('t.subjectid', $school);
+			}
+			$this->db->group_by('i.creators_id')
+			->order_by('count(distinct i.eprintid) desc')
+			->limit(200);
+		return $this->db->get()->result();
+		
 	
 	}
 }
