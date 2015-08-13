@@ -28,8 +28,11 @@ class eprintsreporting_model extends CI_Model {
 						->from('document f')
 						->join('eprint e', 'e.eprintid = f.eprintid')
 						->where('e.eprint_status', "archive")
-						->where('format like "application%"')
-						->where('security', 'public')
+						->where("(f.format like 'application%'
+							OR f.format like 'text/html'
+							OR f.format like 'audio%'
+							OR f.format like 'video%')")
+						->where("(f.date_embargo_year is not null OR f.security = 'public')")
 						->group_by('type with rollup')
 						->get()
                         ->result();
@@ -60,8 +63,11 @@ class eprintsreporting_model extends CI_Model {
 					->from('document f')
 					->join('eprint e' , 'e.eprintid = f.eprintid')
 					->where('e.eprint_status', "archive")
-					->like('f.format', 'application', 'after')
-					->where('f.security', 'public')
+					->where("(f.format like 'application%'
+						OR f.format like 'text/html'
+						OR f.format like 'audio%'
+						OR f.format like 'video%')")
+					->where("(f.date_embargo_year is not null OR f.security = 'public')")
 					->where($field,$value)
 					->group_by('f.eprintid')
 					->order_by('datelive')
@@ -102,8 +108,11 @@ class eprintsreporting_model extends CI_Model {
 					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
 					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 					->where('e.eprint_status', "archive")
-					->like('f.format', 'application', 'after')
-					->where('f.security', 'public')
+					->where("(f.format like 'application%'
+						OR f.format like 'text/html'
+						OR f.format like 'audio%'
+						OR f.format like 'video%')")
+					->where("(f.date_embargo_year is not null OR f.security = 'public')")
 					->where('a.pos', '1')
 					->where('t.subjectid !=', 'd328')
 					->group_by('t.subjectid')
@@ -145,8 +154,11 @@ class eprintsreporting_model extends CI_Model {
 					->join('subject_ancestors a' , 'd.divisions = a.subjectid')
 					->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 					->where('e.eprint_status', "archive")
-					->like('f.format', 'application', 'after')
-					->where('f.security', 'public')
+					->where("(f.format like 'application%'
+						OR f.format like 'text/html'
+						OR f.format like 'audio%'
+						OR f.format like 'video%')")
+					->where("(f.date_embargo_year is not null OR f.security = 'public')")
 					->where('a.pos', '1')
 					->where('t.subjectid', $school)
 					->group_by('t.subjectid')
@@ -415,7 +427,10 @@ class eprintsreporting_model extends CI_Model {
 				->join('subject_ancestors a' , 'd.divisions = a.subjectid')
 				->join('subject_name_name t' , 'a.ancestors = t.subjectid')
 				->where('e.eprint_status', "archive")
-				->like('f.format', 'application', 'after')
+				->where("(f.format like 'application%'
+						OR f.format like 'text/html'
+						OR f.format like 'audio%'
+						OR f.format like 'video%')")
 				->where('(f.security = "public" OR f.date_embargo_year is not null)')
 				->where('a.pos', '1');
 		if (!empty($school)) {			

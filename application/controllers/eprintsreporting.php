@@ -337,8 +337,8 @@ class eprintsreporting extends CI_Controller {
 	}
 	
 	//to do...
-	// authors - above
-	// add top authors per school
 	// page per year
+	// author page, show month records and full text tables
+	// top oa authors
 	
 }

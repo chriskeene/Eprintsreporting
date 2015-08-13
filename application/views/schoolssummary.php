@@ -5,9 +5,7 @@
 		// list of academic months
 		$monthlist = $this->ergeneral->get_academicmonthlist();
 ?>
-<?php //print_r($schoollist);
-//print_r($schooloa);
- ?>
+
 <table class="style1 stripe">
 <thead>
 	<tr>
@@ -60,7 +58,11 @@
 		</td>	
 	<?php endforeach // end of each month for this school. ?>
 	
-	<td> <?php echo number_format($schoolrecords[$school->schoolid]["Total"]) ?> </td>
+	<td> <?php 	if ($schoolrecords[$school->schoolid]["Total"]) {
+					echo number_format($schoolrecords[$school->schoolid]["Total"]);
+				} 
+		?> 
+	</td>
 	</tr>
 	<?php endforeach // school list each school ?> 
 </tbody>
