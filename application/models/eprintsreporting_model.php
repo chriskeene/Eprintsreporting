@@ -397,6 +397,10 @@ class eprintsreporting_model extends CI_Model {
 				$newitemsarray["$row->nicemonth"] = "$row->total";
 			}
 		}
+		// if we have no items, total has not been set, so set it
+		if (empty($newitemsarray["Total"])) {
+			$newitemsarray["Total"] = 0;
+		}
 		$newitemsarray["name"] = "$startyear/$endyear";
 		return $newitemsarray;		
 	}
@@ -448,6 +452,10 @@ class eprintsreporting_model extends CI_Model {
 			else {
 				$oaitemsarray["$row->nicemonth"] = "$row->total";
 			}
+		}
+		// if we have no items, total has not been set, so set it
+		if (empty($oaitemsarray["Total"])) {
+			$oaitemsarray["Total"] = 0;
 		}
 		$oaitemsarray["name"] = "$startyear/$endyear";
 		return $oaitemsarray;		
