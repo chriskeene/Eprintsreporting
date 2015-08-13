@@ -1,5 +1,6 @@
 <?php $monthlist = array("Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"); ?>
 <h2>Open Access public full text by type:</h2>
+<p>Open Access items counted here are those with a full text file available for download (either immediately or after an embargo period).</p>
 <table class="style1 stripe">
 <thead>
 	<tr>
