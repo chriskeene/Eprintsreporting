@@ -17,6 +17,8 @@
 		<th>project name</th>
 		<th>project number</th>
 		<th>OA status /licence</th>
+		<th>Depositor name</th>
+		
 		
 		
 		
@@ -51,7 +53,14 @@
 		<td><?php echo $sro_item['funderref'] ?> </td>
 		<td><?php echo $sro_item['projectname'] ?> </td>
 		<td><?php echo $sro_item['projectnum'] ?> </td>
-		<td><?php echo $sro_item['oa_status'] ?> <?php echo $sro_item['oa_licence_type'] ?> </td>
+		<td><?php echo $sro_item['oa_status'] ?> <?php echo $sro_item['oa_licence_type'] ?>
+		<?php 	if (!empty($sro_item['filenum'])) {
+					echo "<br /><a href=\"" . $this->config->item('eprints_record_url') . $sro_item['eprintid'] . "/" . $sro_item['filenum'] . "/" . $sro_item['filename'] . "\" target=\"_blank\">file</a>";
+				}
+		?>
+		</td>
+		<td><?php echo $sro_item['depositname'] ?> </td>
+		<td> </td>
 		
 		<?php $doi = ""; ?>
 		

@@ -290,7 +290,10 @@ class eprintsreporting_model extends CI_Model {
 			group_concat(DISTINCT fp.funder_information_project_name SEPARATOR ", and ") As projectname,
 			group_concat(DISTINCT fn.funder_information_project_number SEPARATOR ", and ") As projectnum,
 			e.title, e.publisher, e.ispublished, e.`type`, e.id_number,
-			group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors
+			group_concat(DISTINCT n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
+			concat(u.name_given, " ", u.name_family) as depositname,
+			f.main as filename,
+			f.pos as filenum
 			from eprint e
 			left outer join eprint_funder_information_funder ff on ff.eprintid = e.eprintid
 			left outer join eprint_funder_information_funder_ref fr on (fr.eprintid = ff.eprintid AND fr.pos = ff.pos)
@@ -298,6 +301,8 @@ class eprintsreporting_model extends CI_Model {
 			left outer join eprint_funder_information_project_number fn on (fn.eprintid = ff.eprintid AND fn.pos = ff.pos)
 			JOIN eprint_creators_id i on e.eprintid = i.eprintid
  			JOIN eprint_creators_name n on n.eprintid = i.eprintid AND n.pos = i.pos
+			join user u on e.userid = u.userid
+			left outer join document f on e.eprintid = f.eprintid
 			Where (ff.funder_information_funder is not null
 				OR fr.funder_information_funder_ref is not null
 				OR fp.funder_information_project_name is not null
@@ -305,6 +310,11 @@ class eprintsreporting_model extends CI_Model {
 				)
 			AND e.eprint_status = "archive"
 			and i.creators_id is not null
+			AND (f.format like "application%"
+						OR f.format like "text/html"
+						OR f.format like "audio%"
+						OR f.format like "video%"
+						OR f.format is null)
 			GROUP BY e.eprintid
 			ORDER BY e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc
 		');
