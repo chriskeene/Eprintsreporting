@@ -54,15 +54,6 @@ class eprintsreporting extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function xxview($slug)
-	{
-		$eprintid = '10000';
-		$data['items'] = $this->eprintsreporting_model->get_recentoaitems();
-		$data['title'] = $this->config->item('eprints_name'). ' item';
-		$this->load->view('templates/header', $data);
-		$this->load->view('item', $data);
-		$this->load->view('templates/footer');
-	}
 	
 	public function nojournaltitles()
 	{
@@ -335,6 +326,24 @@ class eprintsreporting extends CI_Controller {
 		$this->load->view('authorlist', $data);
 		$this->load->view('templates/footer');
 	}
+	
+	
+	/////////////////////////////////////////////
+	// show a list of authors, order by those who have published the most
+	public function itemtype($year="", $school="")
+	{
+		// if no school specified, will want a list of schools
+		if ($year=="") {
+			// get list of schools
+			$data['schoollist'] = $this->eprintsreporting_model->get_schoollist();
+		}
+		$data['items'] = $this->eprintsreporting_model->get_totalsbytype($year, $school);
+		$data['title'] = $this->config->item('eprints_name'). ' Number of items by item type';
+		$this->load->view('templates/header', $data);
+		$this->load->view('itemtype', $data);
+		$this->load->view('templates/footer');
+	}
+	
 	
 	//to do...
 	// page per year

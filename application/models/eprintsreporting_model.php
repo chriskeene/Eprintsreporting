@@ -77,7 +77,6 @@ class eprintsreporting_model extends CI_Model {
 	
 	
 	// for all schools, return number of records added each month, and number of OA items for each month
-	// for a given year.
 	public function get_schools_year()
 	{
 		// we're returning more than one query, so chuck it all in an array
@@ -121,9 +120,9 @@ class eprintsreporting_model extends CI_Model {
 			$schoolsarray["$row->schoolid"]["schooloatotal"] = "$row->total";
 		}
 		
-		return $schoolsarray;
-					
+		return $schoolsarray;				
 	}
+	
 	
 	///////////////////////////////////////////////
 	// show data for just one school - as specified.
@@ -170,8 +169,9 @@ class eprintsreporting_model extends CI_Model {
 		return $schoolarray;
 	}
 	
+	
 	////////////////////////////
-	//return a list of schools, used by Schools summary.
+	// return a list of schools, used by Schools summary.
 	// note similar function further down.
 	public function get_schoollist()
 	{
@@ -278,6 +278,7 @@ class eprintsreporting_model extends CI_Model {
 		');
 		return $query->result_array();
 	}
+
 	
 	////////////////////////////////////////////////
 	// Return records with the funder fields used, order by most recent first
@@ -668,4 +669,39 @@ class eprintsreporting_model extends CI_Model {
 		
 	
 	}
+	
+	
+	
+	///////////////////////////////////////
+	// get_totalsbytype
+	// returns a list of totals by school and item type.
+	public function get_totalsbytype ($year="",$school="")
+	{
+		if (empty($year)) {
+			$startyear = date("Y",strtotime("-1 year"));
+		}
+		else {
+			$startyear = $year;
+		}
+		$endyear = $startyear + 1;
+
+		$this->db->select('t.subjectid, e.type, COUNT(*) AS  "total", t.name_name as "school"', FALSE)
+			->from('eprint e')
+			->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+			->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+			->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+			->where('e.eprint_status', "archive")
+			->where('a.pos', '1');
+			if (!empty($school)) {			
+				$this->db->where('t.subjectid', $school);
+			}
+			$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
+					OR (e.datestamp_year = $startyear and e.datestamp_month > 7 ))");
+			$this->db->group_by('t.subjectid, e.type');
+			return $this->db->get()->result();
+			
+	
+	
+	}
+	
 }
