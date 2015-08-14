@@ -39,6 +39,13 @@
 
 </div>
 
+<?php 
+	//echo $academicyear;
+	$oneyearback = $academicyear - 1;
+	$twoyearback = $academicyear - 2;
+	$threeyearback = $academicyear - 3;
+
+?>
 
 <h3>Reports</h3>
 <ul>
@@ -47,7 +54,11 @@
 <li><a href="<?php echo site_url('eprintsreporting/recentoa/'); ?>">Recent OA items (open or under embargo)</a></li>
 <li>Journals with the most items in SRO 
 	[<a href="gettopjournals/1">This year</a>] [<a href="gettopjournals/3">last 3 years</a>] [<a href="gettopjournals/5">last 5 years</a>] [<a href="gettopjournals/10">last 10 years</a>]</li>
-
+<li>Totals by School and type: 
+	[<a href="<?php echo site_url("eprintsreporting/itemtype/$academicyear"); ?>"><?php echo "$oneyearback/$academicyear"?></a>] 
+	[<a href="<?php echo site_url("eprintsreporting/itemtype/$oneyearback"); ?>"><?php echo "$twoyearback/$oneyearback"?></a>]
+	[<a href="<?php echo site_url("eprintsreporting/itemtype/$twoyearback"); ?>"><?php echo "$threeyearback/$twoyearback"?></a>]
+	
 <li><a href="<?php echo site_url('eprintsreporting/getrecentoafield/'); ?>">Records with OA metadata</a></li>
 <li><a href="<?php echo site_url('eprintsreporting/getrecentfunder/'); ?>">Records with funder metadata</a></li>
 

@@ -684,7 +684,7 @@ class eprintsreporting_model extends CI_Model {
 			$startyear = $year;
 		}
 		$endyear = $startyear + 1;
-
+		
 		$this->db->select('t.subjectid, e.type, COUNT(*) AS  "total", t.name_name as "school"', FALSE)
 			->from('eprint e')
 			->join('eprint_divisions d' , 'e.eprintid = d.eprintid')

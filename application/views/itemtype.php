@@ -15,26 +15,27 @@
 		<th>Books</th>
 		<th>Edited Books</th>
 		<th>Theses</th>
-		<th>Other</th>
-
-	
-
+		<th>Project/<br />working paper</th>
 
 	</tr>
 </thead>
 <tbody>
-<?php foreach ($schoollist as $school): ?>
-	<?php print_r ($school); ?>
+<?php foreach ($schools as $school): ?>
+	<?php 
+		if (!isset($school['schoolname'])) {
+			continue;
+		}
+	?>
 	<tr>
 	<td>
-	<?php echo $school->schoolname . $school->schoolid ?></td>
-	<td>
-	<?php //echo $items->item . $school->schoolid
-	?>
-	</td>
-
-	
-	
+	<?php echo $school['schoolname']  ?></td>
+	<td><?php if (isset($school['article'])) { echo $school['article']; }?></td>
+	<td><?php if (isset($school['conference_item'])) { echo $school['conference_item']; } else { echo "0"; }?></td>
+	<td><?php if (isset($school['book_section'])) { echo $school['book_section']; } else { echo "0"; }?></td>
+	<td><?php if (isset($school['book'])) { echo $school['book']; } else { echo "0"; }?></td>
+	<td><?php if (isset($school['edited_book'])) { echo $school['edited_book']; } else { echo "0"; }?></td>
+	<td><?php if (isset($school['thesis'])) { echo $school['thesis']; } else { echo "0"; }?></td>
+	<td><?php if (isset($school['monograph'])) { echo $school['monograph']; } else { echo "0"; }?></td>
 	
 	</tr>
 	
@@ -42,36 +43,3 @@
 </tbody>
 </table>
 
-	<?php print_r($items); ?>
-<table class="style1 stripe">
-<thead>
-	<tr>
-		<th>School</th>
-		
-
-		<th>Articles</th>
-		<th>Conf. Reports</th>
-		<th>Book Chapters</th>
-		<th>Books</th>
-		<th>Edited Books</th>
-		<th>Theses</th>
-		<th>Other</th>
-
-
-	</tr>
-</thead>
-<tbody>
-<?php foreach ($items as $item): ?>
-	<?php //print_r($item); ?>
-	<tr>
-	<td>
-	<?php echo $item->school . $item->subjectid ?></td>
-	<td><?php echo $item->total ?></td>
-	<td><?php echo $item->type ?></td>
-	
-	
-	
-	</tr>
-<?php endforeach ?>
-</tbody>
-</table>

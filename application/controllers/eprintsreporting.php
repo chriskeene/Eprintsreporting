@@ -12,6 +12,9 @@ class eprintsreporting extends CI_Controller {
 
 	public function index()
 	{
+		// needed for itemtype links
+		$data['academicyear'] = $this->ergeneral->get_academicyear();
+	
 		$data['total'] = $this->eprintsreporting_model->get_total();
 		$data['oatotals'] = $this->eprintsreporting_model->get_oatotal_bytype();
 		$data['monthtotals'] = $this->eprintsreporting_model->get_newrecords_bymonth();
@@ -330,14 +333,30 @@ class eprintsreporting extends CI_Controller {
 	
 	/////////////////////////////////////////////
 	// show a list of authors, order by those who have published the most
-	public function itemtype($year="", $school="")
+	public function itemtype($year="")
 	{
-		// if no school specified, will want a list of schools
-		if ($year=="") {
-			// get list of schools
-			$data['schoollist'] = $this->eprintsreporting_model->get_schoollist();
+		// get list of schools
+		$schoollist = $this->eprintsreporting_model->get_schoollist();
+		$itemtypetotals = $this->eprintsreporting_model->get_totalsbytype($year, "");
+
+		$schools=array();
+		
+		foreach ($schoollist as $school) {
+			$schools[$school->schoolid]['schoolid'] = $school->schoolid;
+			$schools[$school->schoolid]['schoolname'] = $school->schoolname;
 		}
-		$data['items'] = $this->eprintsreporting_model->get_totalsbytype($year, $school);
+
+		foreach ($itemtypetotals as $currenttotal) {
+			if (isset($currenttotal->total)) {
+				$schools[$currenttotal->subjectid][$currenttotal->type] = $currenttotal->total;
+			} 
+			else {
+				$schools[$currenttotal->subjectid][$currenttotal->type] = "0";
+			}
+		}
+		//print_r($schools);
+		$data['schools'] = $schools;
+		
 		$data['title'] = $this->config->item('eprints_name'). ' Number of items by item type';
 		$this->load->view('templates/header', $data);
 		$this->load->view('itemtype', $data);
