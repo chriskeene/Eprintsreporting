@@ -52,7 +52,7 @@
 <li><a href="<?php echo site_url('eprintsreporting/summary/'); ?>">Summary</a></li>
 <li><a href="<?php echo site_url('eprintsreporting/school/'); ?>">Schools statistics</a></li>
 <li><a href="<?php echo site_url('eprintsreporting/recentoa/'); ?>">Recent OA items (open or under embargo)</a></li>
-<li>Journals with the most items in SRO 
+<li>Journals with the most items published in  
 	[<a href="gettopjournals/1">This year</a>] [<a href="gettopjournals/3">last 3 years</a>] [<a href="gettopjournals/5">last 5 years</a>] [<a href="gettopjournals/10">last 10 years</a>]</li>
 <li>Totals by School and type: 
 	[<a href="<?php echo site_url("eprintsreporting/itemtype/$academicyear"); ?>"><?php echo "$oneyearback/$academicyear"?></a>] 
