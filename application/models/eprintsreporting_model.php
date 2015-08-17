@@ -707,4 +707,120 @@ class eprintsreporting_model extends CI_Model {
 	
 	}
 	
+	/*
+		<th>Total items</th>
+		<th>Total OA</th>
+		<th>Percentage OA</th>
+		<th>Total articles</th>
+		<th>Total OA articles</th>
+		<th>Percentage article OA</th> */
+	///////////////////////////////////////
+	// get_oasummary
+	//returns a list of totals, total items for a year, total OA, total articles, total oa artices.
+	//
+	public function get_oasummary ($year="", $school="") 
+	{
+		if (empty($year)) {
+			// if no year set, presume current year
+			$startyear = date("Y",strtotime("-1 year"));
+		}
+		else {
+			$startyear = $year;
+		}
+		$endyear = $startyear + 1; 
+		$returnarray=array();
+		// total items for year and school.
+		$query = $this->db->select('count(*) as total')
+                        ->from('eprint e');
+						if (!empty($school)) {			
+							$this->db->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+							->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+							->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+							->where('t.subjectid', $school)
+							->where('a.pos', '1');
+						}
+						$this->db->where('eprint_status', "archive");
+						$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
+							OR (e.datestamp_year = $startyear and e.datestamp_month > 7 ))");
+                        $query =  $this->db->get();
+		foreach ($query->result() as $row) {
+			// add results to multi-dem array. use schoolid as id 
+			$returnarray["totalitems"]= "$row->total";
+
+		}	
+		// get number of OA items for year and school
+		$this->db->select('Count(distinct e.eprintid) as "oatotal"')
+                        ->from('eprint e')
+						->join('document f', 'e.eprintid = f.eprintid');
+						if (!empty($school)) {			
+							$this->db->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+							->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+							->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+							->where('t.subjectid', $school)
+							->where('a.pos', '1');
+						}
+                        $this->db->where('eprint_status', "archive")
+						->where("(f.format like 'application%'
+							OR f.format like 'text/html'
+							OR f.format like 'audio%'
+							OR f.format like 'video%')")
+						->where("(f.date_embargo_year is not null OR f.security = 'public')");
+						$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
+							OR (e.datestamp_year = $startyear and e.datestamp_month > 7 ))");
+                        $query = $this->db->get();
+		foreach ($query->result() as $row) {
+			// add results to multi-dem array. use schoolid as id 
+			$returnarray["totaloaitems"]= "$row->oatotal";
+		}	
+		// get number of articles for current year and school
+		$query = $this->db->select('count(*) as total')
+                        ->from('eprint e');
+						if (!empty($school)) {			
+							$this->db->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+							->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+							->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+							->where('t.subjectid', $school)
+							->where('a.pos', '1');
+						}
+						$this->db->where('eprint_status', "archive")
+						->where('type', 'article');
+						$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
+							OR (e.datestamp_year = $startyear and e.datestamp_month > 7 ))");
+                        $query =  $this->db->get();
+		foreach ($query->result() as $row) {
+			// add results to multi-dem array. use schoolid as id 
+			$returnarray["totalarticles"]= "$row->total";
+
+		}	
+		// get number of OA articles for current year and school
+		$this->db->select('Count(distinct e.eprintid) as "oatotal"')
+                        ->from('eprint e')
+						->join('document f', 'e.eprintid = f.eprintid');
+						if (!empty($school)) {			
+							$this->db->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+							->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+							->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+							->where('t.subjectid', $school)
+							->where('a.pos', '1');
+						}
+                        $this->db->where('eprint_status', "archive")
+						->where('e.type', 'article')
+						->where("(f.format like 'application%'
+							OR f.format like 'text/html'
+							OR f.format like 'audio%'
+							OR f.format like 'video%')")
+						->where("(f.date_embargo_year is not null OR f.security = 'public')");
+						$this->db->where("((e.datestamp_year = $endyear and e.datestamp_month < 8 )
+							OR (e.datestamp_year = $startyear and e.datestamp_month > 7 ))");
+                        $query = $this->db->get();
+		foreach ($query->result() as $row) {
+			// add results to multi-dem array. use schoolid as id 
+			$returnarray["totaloaarticles"]= "$row->oatotal";
+		}	
+		
+		$returnarray["name"] = "$startyear/$endyear"; // set the current year in the array to use as a name
+		return $returnarray;
+			
+	}
+	
 }

@@ -105,11 +105,17 @@ class eprintsreporting extends CI_Controller {
 		$threeyearsago = $previousyear - 1;
 		$data['threeyearsagooa'] = $this->eprintsreporting_model->get_year_monthly_oa($threeyearsago);
 		//*******************************************************
+		// OA summary
+		$data['thisyearoasummary'] = $this->eprintsreporting_model->get_oasummary($academicyear);
+		$data['previousyearoasummary'] = $this->eprintsreporting_model->get_oasummary($previousyear);
+		$data['threeyearoasummary'] = $this->eprintsreporting_model->get_oasummary($threeyearsago);
+		// ***************************************************************
 		// Views
 		$this->load->view('templates/header', $data);
 		$this->load->view('summary', $data);
 		$this->load->view('records_per_month', $data);
 		$this->load->view('open_access_items_added_by_month', $data);
+		$this->load->view('oasummary', $data);
 		$this->load->view('oa_by_type', $data);
 		$this->load->view('records_per_month_calendar_year', $data);
 		$this->load->view('templates/footer');
