@@ -118,6 +118,9 @@ class eprintsreporting_model extends CI_Model {
 					->get();
 		foreach ($query->result() as $row) {
 			$schoolsarray["$row->schoolid"]["schooloatotal"] = "$row->total";
+			// now work out percentage of items that are OA.
+			$schoolsarray["$row->schoolid"]["schoolpercentageoa"] = ($schoolsarray["$row->schoolid"]["schooloatotal"] / 
+				$schoolsarray["$row->schoolid"]["schooltotalrecords"]) * 100;
 		}
 		
 		return $schoolsarray;				

@@ -13,6 +13,7 @@
 		<th>Total records</th>
 
 		<th>Total Open Access items</th>
+		<th>Percentage of items that are OA</th>
 
 	</tr>
 </thead>
@@ -25,12 +26,13 @@
 	$schooltotal['schoolname'] . '</a>' ?></td>
 	<td><?php echo number_format($schooltotal['schooltotalrecords']) ?></td>
 	<td><?php echo $schooltotal['schooloatotal'] ?></td>
+	<td><?php echo number_format($schooltotal['schoolpercentageoa'], 0); ?></td>
 
 	</tr>
 	<?php endforeach ?>
 </tbody>
 </table>
-
+<p>Open Access items counted here are those with a full text file available for download (either immediately or after an embargo period).<p>
 
 <h3>Records added per month</h3>
 <table class="style1 stripe">
