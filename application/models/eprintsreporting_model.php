@@ -818,7 +818,7 @@ class eprintsreporting_model extends CI_Model {
 	}
 	
 	
-		///////////////////////////////////////
+	///////////////////////////////////////
 	// get_nonoaarticles
 	// returns a list of articles that have no file attached at all.
 	public function get_nooaarticles ($year="",$school="")
@@ -846,17 +846,15 @@ class eprintsreporting_model extends CI_Model {
 			->where('e.type', 'article')
 			->where('e.eprintid not in (Select distinct eprintid from document)')
 			->where('e.datestamp_year >=',$lastyear)
-			->where('e.date_year >=',$year)
+			->where("(e.date_year >= '$year' OR e.date_year is NULL)")
 			->where('a.pos', '1');
 			if (!empty($school)) {			
 				$this->db->where('t.subjectid', $school);
 			}
 			$this->db->group_by('e.eprintid')
-			->order_by('e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc');
-			return $this->db->get()->result();
-			
-	
-	
+			->order_by('e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc')
+			->limit(2000);
+			return $this->db->get()->result(); // OR e.date_year is null
 	}
 	
 }
