@@ -26,7 +26,7 @@
 	$schooltotal['schoolname'] . '</a>' ?></td>
 	<td><?php echo number_format($schooltotal['schooltotalrecords']) ?></td>
 	<td><?php echo $schooltotal['schooloatotal'] ?></td>
-	<td><?php echo number_format($schooltotal['schoolpercentageoa'], 0); ?></td>
+	<td><?php echo number_format($schooltotal['schoolpercentageoa'], 0) . "%"; ?></td>
 
 	</tr>
 	<?php endforeach ?>

@@ -707,13 +707,7 @@ class eprintsreporting_model extends CI_Model {
 	
 	}
 	
-	/*
-		<th>Total items</th>
-		<th>Total OA</th>
-		<th>Percentage OA</th>
-		<th>Total articles</th>
-		<th>Total OA articles</th>
-		<th>Percentage article OA</th> */
+	
 	///////////////////////////////////////
 	// get_oasummary
 	//returns a list of totals, total items for a year, total OA, total articles, total oa artices.
