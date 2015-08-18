@@ -2,7 +2,12 @@
 		$this->load->library('ergeneral');
 		// list of item types
 		$itemtypelist = $this->ergeneral->get_itemtypelist();
-?>
+
+		if (!empty($introtext)) {
+			echo "<p>" . $introtext . "</p>";
+		}
+		
+		?>
 <table class="style1 stripe">
 <thead>
 	<tr>
@@ -31,7 +36,12 @@
 	<td><?php echo $item->published ?></td>
 	<td><?php echo $item->publication ?><br />
 		<?php echo $item->publisher ?></td>
-	<td><?php echo $item->DOI ?><br />
+	<td><?php 	if (!empty($item->DOI)) {
+					echo '<a href="http://dx.doi.org/' . $item->DOI . '">' . $item->DOI . '</a>';
+				}
+				?><br />
+	
+	
 		<?php echo $item->issn; echo $item->isbn;  ?></td>
 	<td><?php  // use nice item type names.
 			if (isset($itemtypelist[$item->type])) {

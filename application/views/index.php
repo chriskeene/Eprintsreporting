@@ -58,7 +58,8 @@
 	[<a href="<?php echo site_url("eprintsreporting/itemtype/$academicyear"); ?>"><?php echo "$oneyearback/$academicyear"?></a>] 
 	[<a href="<?php echo site_url("eprintsreporting/itemtype/$oneyearback"); ?>"><?php echo "$twoyearback/$oneyearback"?></a>]
 	[<a href="<?php echo site_url("eprintsreporting/itemtype/$twoyearback"); ?>"><?php echo "$threeyearback/$twoyearback"?></a>]
-	
+	</li>
+<li><a href="<?php echo site_url('eprintsreporting/notoaarticles/'); ?>">Articles with no full text</a></li>	
 <li><a href="<?php echo site_url('eprintsreporting/getrecentoafield/'); ?>">Records with OA metadata</a></li>
 <li><a href="<?php echo site_url('eprintsreporting/getrecentfunder/'); ?>">Records with funder metadata</a></li>
 

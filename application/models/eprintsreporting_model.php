@@ -817,4 +817,47 @@ class eprintsreporting_model extends CI_Model {
 			
 	}
 	
+	
+		///////////////////////////////////////
+	// get_nonoaarticles
+	// returns a list of articles that have no file attached at all.
+	public function get_nooaarticles ($year="",$school="")
+	{
+		$lastyear = date("Y",strtotime("-1 year"));
+		if (empty($year)) {
+			$year = $lastyear;
+		}
+		// if no year specified will get all articles *published* this year or last year.
+		// also, only returns articles *added* in last 2 years.
+		
+		$this->db->select('e.eprintid as eprintid, concat_ws("/",e.date_day, e.date_month, e.date_year) as "published", concat(e.datestamp_day, "/", e.datestamp_month, "/", e.datestamp_year) as "livedate", 
+		e.title, group_concat(n.creators_name_given, " ", n.creators_name_family SEPARATOR ", ") as authors,
+		e.ispublished, e.id_number as "DOI",e.issn, e.isbn, e.volume, e.number as "Issue", e.pagerange, e.publication, e.publisher, e.type,
+		t.name_name as "schools"', FALSE)
+			->from('eprint e')
+			->join('eprint_divisions d' , 'e.eprintid = d.eprintid')
+			->join('subject_ancestors a' , 'd.divisions = a.subjectid')
+			->join('subject_name_name t' , 'a.ancestors = t.subjectid')
+			->join('eprint_creators_id i' , 'e.eprintid = i.eprintid')
+			->join('eprint_creators_name n' , 'n.eprintid = i.eprintid AND n.pos = i.pos')
+			->where('e.eprint_status', "archive")
+			->where('i.creators_id is not null')
+			->where('i.creators_id != ""')
+			->where('e.type', 'article')
+			->where('e.eprintid not in (Select distinct eprintid from document)')
+			->where('e.datestamp_year >=',$lastyear)
+			->where('e.date_year >=',$year)
+			->where('a.pos', '1');
+			if (!empty($school)) {			
+				$this->db->where('t.subjectid', $school);
+			}
+			$this->db->group_by('e.eprintid')
+			->order_by('e.datestamp_year desc, e.datestamp_month desc, e.datestamp_day desc');
+			return $this->db->get()->result();
+			
+	
+	
+	}
+	
 }
+	

@@ -334,7 +334,7 @@ class eprintsreporting extends CI_Controller {
 	public function topauthors($yearsback="5", $school="")
 	{
 		$data['items'] = $this->eprintsreporting_model->get_topauthors($yearsback, $school);
-		$data['title'] = $this->config->item('eprints_name'). ' Authors with the most items in SRO';
+		$data['title'] = 'Authors with the most items in ' .$this->config->item('eprints_name');
 		$this->load->view('templates/header', $data);
 		$this->load->view('authorlist', $data);
 		$this->load->view('templates/footer');
@@ -370,6 +370,24 @@ class eprintsreporting extends CI_Controller {
 		$data['title'] = $this->config->item('eprints_name'). ' Number of items by item type';
 		$this->load->view('templates/header', $data);
 		$this->load->view('itemtype', $data);
+		$this->load->view('templates/footer');
+	}
+	
+	
+	/////////////////////////////////////////////
+	// show a list of recent articles which have no file attached, ie not oa
+	public function notoaarticles($year="", $school="")
+	{
+		$lastyear = date("Y",strtotime("-1 year"));
+		if (empty($year) || $year =="0" ) {
+			$year = $lastyear;
+		}	
+	
+		$data['items'] = $this->eprintsreporting_model->get_nooaarticles($year, $school);
+		$data['title'] = $this->config->item('eprints_name'). ' articles with that are not OA';
+		$data['introtext'] = 'Recent article records with no file attached at all. (only includes articles published since ' . $year . ').';
+		$this->load->view('templates/header', $data);
+		$this->load->view('itemlist', $data);
 		$this->load->view('templates/footer');
 	}
 	

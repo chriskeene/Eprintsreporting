@@ -38,6 +38,9 @@
 <?php $url=site_url('eprintsreporting/topauthors/5/' . $schooltotals['schoolid']); ?>
 <li><a href="<?php echo $url; ?>">Authors with most items on SRO</a>.</li>
 
+<?php $url=site_url('eprintsreporting/notoaarticles/0/' . $schooltotals['schoolid']); ?>
+<li><a href="<?php echo $url; ?>">Articles with that are not OA</a>.</li>
+
 </ul>
 
 
