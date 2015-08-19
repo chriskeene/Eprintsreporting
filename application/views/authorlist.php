@@ -1,5 +1,5 @@
 <?php $this->load->helper('url'); ?>
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th>Author</th>

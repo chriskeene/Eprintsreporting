@@ -9,7 +9,7 @@
 
 <h2>Open Access public full text by type:</h2>
 <p>Open Access items counted here are those with a full text file available for download (either immediately or after an embargo period).</p>
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th>type</th>

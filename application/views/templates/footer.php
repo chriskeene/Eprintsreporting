@@ -1,12 +1,14 @@
-        </div><!-- content --> 
-			</div> <!-- columns -->
-                        <div id="footer">
-                <ul> 
-                                        <li class="first"><a href="http://www.sussex.ac.uk/az">A-Z</a></li>
-                                        <li><a href="http://www.sussex.ac.uk/profiles">Staff search</a></li><li><a href="http://www.sussex.ac.uk/contactus">Contact us</a></li><li><a href="https://webmail.sussex.ac.uk/">Email</a></li><li><a href="http://www.sussex.ac.uk/">External website</a></li><li><a href="http://www.sussex.ac.uk/disclaimer/privacy">Privacy</a></li><li class="last"><a href="http://www.sussex.ac.uk/disclaimer/cookies">Cookies</a></li>
-                </ul> 
-                <p>Copyright &copy; 2014, University of Sussex</p>
-            </div> 
-        </div>
-    </body> 
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2015</p>
+      </footer>
+    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="<?php echo base_url('assets/js/vendor/jquery-1.11.2.min.js') ?>"><\/script>')</script>
+
+        <script src="<?php echo base_url('assets/js/vendor/bootstrap.min.js') ?>"></script>
+
+        <script src="<?php echo base_url('assets/js/main.js') ?>"></script>
+    </body>
 </html>

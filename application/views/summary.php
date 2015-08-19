@@ -1,6 +1,6 @@
 <h2>Total records in <?php echo $this->config->item('eprints_name') ?></h2>
 
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th> </th>

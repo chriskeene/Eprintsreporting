@@ -2,7 +2,7 @@
 <h2>Journals most published in</h2>
 <p><?php echo $topjournalstext; ?></p>
 
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th>Number of articles</th>

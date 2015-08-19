@@ -5,7 +5,7 @@
 		// list of item types
 		$itemtypelist = $this->ergeneral->get_itemtypelist();
 ?>
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th>School</th>

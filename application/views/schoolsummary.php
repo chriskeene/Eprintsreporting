@@ -5,7 +5,7 @@
 		$monthlist = $this->ergeneral->get_academicmonthlist();
 ?>
 
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th><?php echo $schooltotals['schoolname'] ?></th>

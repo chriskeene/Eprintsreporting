@@ -3,12 +3,9 @@
 		// list of item types
 		$itemtypelist = $this->ergeneral->get_itemtypelist();
 
-		if (!empty($introtext)) {
-			echo "<p>" . $introtext . "</p>";
-		}
 		
 		?>
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th><?php echo $this->config->item('eprints_name') ?> id</th>

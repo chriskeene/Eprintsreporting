@@ -4,7 +4,7 @@ echo '<p>Showing items not set as published added before '. date('F Y', strtotim
 echo " (" . count($items) . " items)</p>\n"; 
 ?>
 
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th><?php echo $this->config->item('eprints_name') ?> id</th>

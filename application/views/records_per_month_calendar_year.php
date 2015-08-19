@@ -1,5 +1,5 @@
 <h2>New records per month this calendar year:</h2>
-<table class="style1 stripe">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th>month</th>

@@ -1,4 +1,4 @@
-<table class="style1 stripe" border="1">
+<table class="style1 stripe table table-striped" border="1">
 <thead>
 	<tr>
 		<th><?php echo $this->config->item('eprints_name') ?> id</th>
