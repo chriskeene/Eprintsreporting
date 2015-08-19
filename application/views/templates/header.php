@@ -35,19 +35,12 @@
           <a class="navbar-brand" href="<?php echo site_url('eprintsreporting/') ?>">Eprints Reporting</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          
+          <p>hello</p>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <!-- <div class="jumbotron">
-      <div class="container">
-        <h1><?php echo $title ?></h1>
-        <p><?php echo $introtext ?></p> -->
-       <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
-      </div>
-    </div>
+  
 
     <div class="container">
 		 <h1><?php echo $title ?></h1>
