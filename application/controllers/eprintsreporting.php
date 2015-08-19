@@ -222,6 +222,14 @@ class eprintsreporting extends CI_Controller {
 	{
 		$data['items'] = $this->eprintsreporting_model->get_embargoexpire();
 		$data['title'] = $this->config->item('eprints_name'). ' Full text items with embargo expiring';
+		
+		$this->load->helper('url');
+		$this->load->library('pagination');
+
+		$config['base_url'] = site_url('eprintsreporting/embargoexpire/');
+		$config['total_rows'] = 5000;
+		$config['per_page'] = 100;
+		$config['uri_segment'] = 4;
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('embargoitems', $data);

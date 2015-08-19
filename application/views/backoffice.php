@@ -12,7 +12,6 @@
 <?php endforeach ?>
 </ul>
 
-
 <p>New records per month:</p>
 <ul>
 <?php foreach ($monthtotals as $monthtotal): ?>
@@ -20,33 +19,16 @@
 	<li><?php echo $monthtotal->monthadded ?>:  <?php echo $monthtotal->total ?></li>
 <?php endforeach ?>
 </ul>
-
-
 </div>
 
-
-<h3>Reports</h3>
+<h3>Back office reports</h3>
 <ul>
-<li><a href="summary">Summary</a></li>
-<li><a href="school">Schools statistics</a></li>
+<li><a href="<?php echo site_url('eprintsreporting/recentoa/'); ?>">Recent OA items (open or under embargo)</a></li>
 <li><a href="getrecentoa">Records with OA metadata</a></li>
 <li><a href="getrecentfunder">Records with funder metadata</a></li>
 <li><a href="embargoexpire">Full text items with embargo expiring</a></li>
-</ul>
-<h3>Data issue reports</h3>
-<ul>
 <li><a href="notsetaspublished/12">items not set as published added more than 12 months a go</a></li>
 <li><a href="notsetaspublished">all items not set as published</a></li>
-<li>articles with no: journal title, ISSN, DOI</li>
 <li><a href="nojournaltitles"> articles with no journal title</a></li>
 </ul>
 
-
-
-<p>&nbsp;</p>
-<iframe src="http://sro.sussex.ac.uk/cgi/irstats.cgi?page=get_view2&IRS_epchoice=All&divisionss=dummy&subjectss=dummy&creators_names=dummy&eprint=&IRS_datechoice=period&period=-12m&start_day=1&start_month=1&start_year=2005&end_day=31&end_month=1&end_year=2005&view=MonthlyDownloadsGraph" width="530" height="330">
-
-</iframe>
-<p>&nbsp;</p>
-<a class="twitter-timeline" href="https://twitter.com/search?q=sro.sussex.ac.uk%20OR%20%22sussex%20research%20online%22" data-widget-id="534659132922413056">Tweets about sro.sussex.ac.uk OR "sussex research online"</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>

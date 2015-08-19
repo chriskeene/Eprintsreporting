@@ -5,7 +5,7 @@
 		$itemtypelist = $this->ergeneral->get_itemtypelist();
 ?>
 
-<table class="style1 stripe table table-striped" border="1">
+<table class="style1 stripe table table-striped">
 <thead>
 	<tr>
 		<th><?php echo $this->config->item('eprints_name') ?> id</th>
