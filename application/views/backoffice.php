@@ -2,8 +2,8 @@
 
 <h3>Back office reports</h3>
 <ul>
-<li><a href="<?php echo site_url('eprintsreporting/recentoa/'); ?>">Recent OA items (open or under embargo)</a></li>
-<li><a href="getrecentoa">Records with OA metadata</a></li>
+<li><a href="recentoa">Recent OA items (open or under embargo)</a></li>
+<li><a href="getrecentoafield">Records with OA metadata</a></li>
 <li><a href="getrecentfunder">Records with funder metadata</a></li>
 <li><a href="embargoexpire">Full text items with embargo expiring</a></li>
 <li><a href="notsetaspublished/12">items not set as published added more than 12 months a go</a></li>

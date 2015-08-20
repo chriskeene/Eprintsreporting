@@ -2,7 +2,7 @@
 <!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml">  
     <head> 
-        <title><?php echo $title . " : " $this->config->item('eprints_name') ?>  Reporting </title>
+        <title><?php echo $title . " : " . $this->config->item('eprints_name'); ?>  Reporting </title>
         <meta name="focus" content="internal" /> 
       
         <meta charset="UTF-8"/>
@@ -67,3 +67,7 @@
 				<div id="cccontent">
 			
 <h1><?php echo $title ?></h1> 
+<?php if (isset($introtext)) {
+			echo "<p>$introtext</p>";
+	}
+?>

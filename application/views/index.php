@@ -10,7 +10,6 @@
 <div class="feature palette4 swatch6 right half" style="float:right">
 <h4 class="palette3 swatch6">Summary</h4>
 
-<?php // $tot = $total[0]; echo "one $tot->eprintid"; ?>
 <p><?php echo "Total live records: " . number_format($total[0]->total); ?></p>
 <?php //print_r($oatotals); ?>
 <p>Open Access public full text:</p>
@@ -40,7 +39,9 @@
 </div>
 
 <?php 
-	//echo $academicyear;
+	//  $academicyear; comes from controller
+	// used by item type by School report.
+	$nextyear = $academicyear +1;
 	$oneyearback = $academicyear - 1;
 	$twoyearback = $academicyear - 2;
 	$threeyearback = $academicyear - 3;
@@ -55,9 +56,9 @@
 <li>Journals with the most items published in  
 	[<a href="gettopjournals/1">This year</a>] [<a href="gettopjournals/3">last 3 years</a>] [<a href="gettopjournals/5">last 5 years</a>] [<a href="gettopjournals/10">last 10 years</a>]</li>
 <li>Totals by School and type: 
-	[<a href="<?php echo site_url("eprintsreporting/itemtype/$academicyear"); ?>"><?php echo "$oneyearback/$academicyear"?></a>] 
-	[<a href="<?php echo site_url("eprintsreporting/itemtype/$oneyearback"); ?>"><?php echo "$twoyearback/$oneyearback"?></a>]
-	[<a href="<?php echo site_url("eprintsreporting/itemtype/$twoyearback"); ?>"><?php echo "$threeyearback/$twoyearback"?></a>]
+	[<a href="<?php echo site_url("eprintsreporting/itemtype/$academicyear"); ?>"><?php echo "$academicyear/$nextyear"?></a>] 
+	[<a href="<?php echo site_url("eprintsreporting/itemtype/$oneyearback"); ?>"><?php echo "$oneyearback/$academicyear"?></a>]
+	[<a href="<?php echo site_url("eprintsreporting/itemtype/$twoyearback"); ?>"><?php echo "$twoyearback/$oneyearback"?></a>]
 	</li>
 <li><a href="<?php echo site_url('eprintsreporting/notoaarticles/'); ?>">Articles with no full text</a></li>	
 <li><a href="<?php echo site_url('eprintsreporting/getrecentoafield/'); ?>">Records with OA metadata</a></li>

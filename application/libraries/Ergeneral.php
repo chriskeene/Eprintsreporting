@@ -2,6 +2,9 @@
 
 class ergeneral {
 
+	// return the first year of the current academic year 
+	// Eg todays date April 2015 = 2014 (for 2014/15)
+	// Eg todays date Oct 2015 = 2015 (for 2015/16)
 	public function get_academicyear()
 	{
 		// find FIRST calendar year for current academic year: 

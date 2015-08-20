@@ -353,6 +353,11 @@ class eprintsreporting extends CI_Controller {
 	// show a list of authors, order by those who have published the most
 	public function itemtype($year="")
 	{
+		if (empty($year)) {
+			//find out current academic year (which starts in august).
+			$year = $this->ergeneral->get_academicyear();
+		}
+	
 		// get list of schools
 		$schoollist = $this->eprintsreporting_model->get_schoollist();
 		$itemtypetotals = $this->eprintsreporting_model->get_totalsbytype($year, "");
@@ -376,6 +381,7 @@ class eprintsreporting extends CI_Controller {
 		$data['schools'] = $schools;
 		
 		$data['title'] = $this->config->item('eprints_name'). ' Number of items by item type';
+		$data['introtext'] = "Number of items by type for " . $year . "/" . ($year+1);
 		$this->load->view('templates/header', $data);
 		$this->load->view('itemtype', $data);
 		$this->load->view('templates/footer');
